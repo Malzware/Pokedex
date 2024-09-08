@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('locale'); // Locale pour la traduction
             $table->string('name'); // Nom traduit
             $table->text('description')->nullable(); // Description traduite (nullable)
-
-            $table->unique(['move_learn_method_id', 'locale']); // Index unique sur move_learn_method_id et locale
+            $table->timestamps(); // Pour les colonnes created_at et updated_at
+            $table->unique(['move_learn_method_id', 'locale'], 'move_learn_method_unique'); // Index unique sur move_learn_method_id et locale
         });
     }
 

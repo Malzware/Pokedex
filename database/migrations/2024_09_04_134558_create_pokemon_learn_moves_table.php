@@ -25,7 +25,7 @@ return new class extends Migration
                 'move_id',
                 'move_learn_method_id',
                 'game_version_id'
-            ]);
+            ], 'pokemon_learn_moves_unique');
 
             $table->timestamps(); // Pour les colonnes created_at et updated_at
         });

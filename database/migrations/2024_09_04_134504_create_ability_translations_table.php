@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name'); // Nom traduit
             $table->text('description')->nullable(); // Description traduite (nullable)
             $table->text('effect')->nullable(); // Effet traduit (nullable)
-
+            $table->timestamps(); // Pour les colonnes created_at et updated_at
             $table->unique(['ability_id', 'locale']); // Index unique sur ability_id et locale
         });
     }

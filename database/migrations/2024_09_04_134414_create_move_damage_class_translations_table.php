@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamps();
 
             // Index unique sur la combinaison (move_damage_class_id, locale)
-            $table->unique(['move_damage_class_id', 'locale']);
+            $table->unique(['move_damage_class_id', 'locale'], 'move_damage_class_unique');
         });
     }
 

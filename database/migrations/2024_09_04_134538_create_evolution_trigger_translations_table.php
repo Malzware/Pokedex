@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('evolution_trigger_id')->constrained('evolution_triggers')->onDelete('cascade'); // Clé étrangère vers evolution_triggers
             $table->string('locale'); // Locale pour la traduction
             $table->string('name'); // Nom traduit
-
-            $table->unique(['evolution_trigger_id', 'locale']); // Index unique sur evolution_trigger_id et locale
+            $table->timestamps(); // Pour les colonnes created_at et updated_at
+            $table->unique(['evolution_trigger_id', 'locale'], 'evolution_trigger_unique'); // Index unique sur evolution_trigger_id et locale
         });
     }
 

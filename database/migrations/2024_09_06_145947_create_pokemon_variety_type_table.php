@@ -12,14 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pokemon_variety_type', function (Blueprint $table) {
-            $table->id(); // Clé primaire bigInt auto-incrémentée
-            $table->foreignId('pokemon_variety_id')->constrained('pokemon_varieties')->onDelete('cascade'); // Clé étrangère vers pokemon_varieties
-            $table->foreignId('type_id')->constrained('types')->onDelete('cascade'); // Clé étrangère vers types
+            $table->bigIncrements('id');
+            $table->integer('slot')->check('slot <= 2');
+            $table->foreignIdFor(App\Models\PokemonVariety::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(App\Models\Type::class)->constrained()->onDelete('cascade');
+            $table->timestamps();
 
-            // Index unique pour éviter les doublons
             $table->unique(['pokemon_variety_id', 'type_id']);
-
-            $table->timestamps(); // Pour les colonnes created_at et updated_at
         });
     }
 

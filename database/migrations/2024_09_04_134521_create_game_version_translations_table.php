@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('game_version_id')->constrained('game_versions')->onDelete('cascade'); // Clé étrangère vers game_versions
             $table->string('locale'); // Locale pour la traduction
             $table->string('name'); // Nom traduit
-
+            $table->timestamps(); // Pour les colonnes created_at et updated_at
             $table->unique(['game_version_id', 'locale']); // Index unique sur game_version_id et locale
         });
     }

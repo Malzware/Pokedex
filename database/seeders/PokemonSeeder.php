@@ -41,7 +41,7 @@ class PokemonSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->seedTypes();
+        /* $this->seedTypes();
         $this->seedMoveDamageClasses();
         $this->seedMoves();
         $this->seedMoveLearnMethods();
@@ -49,7 +49,7 @@ class PokemonSeeder extends Seeder
         $this->seedAbilities();
         $this->seedEvolutionTrigger();
         $this->seedItems();
-        $this->seedPokemon();
+        $this->seedPokemon(); */
         $this->seedEvolutions();
     }
 
@@ -71,7 +71,8 @@ class PokemonSeeder extends Seeder
         return $this->request($url);
     }
 
-    public function getClass($path, $fn){
+    public function getClass($path, $fn)
+    {
         $this->command->info('⏳ Fetching ' . $path . '...');
 
         $datas = $this->requestPokeApi($path, true);
@@ -107,16 +108,17 @@ class PokemonSeeder extends Seeder
     {
         $data = $this->request($url);
 
-        if (isset ($data->$nameColumn)) {
+        if (isset($data->$nameColumn)) {
             $this->command->info('  🔵 Fetching ' . $data->$nameColumn . '...');
-        }else {
+        } else {
             $this->command->info('  🔵 Fetching...');
         }
 
         return $fn($data);
     }
 
-    public function searchTranslationAttribute($locale, $attribute, $name){
+    public function searchTranslationAttribute($locale, $attribute, $name)
+    {
         for ($i = 0; $i < count($this->$attribute); $i++) {
             if ($this->$attribute[$i]->language->name === $locale) {
                 return $this->$attribute[$i]->$name;
@@ -154,13 +156,14 @@ class PokemonSeeder extends Seeder
         return $translations;
     }
 
-    public function saveTranslations($model, $apiData, $translations){
+    public function saveTranslations($model, $apiData, $translations)
+    {
         $sortedTranslations = $this->addTranslations($apiData, $translations);
 
         foreach ($sortedTranslations as $locale => $fields) {
-                foreach ($fields as $field => $value) {
-                    $model->translateOrNew($locale)->{$field} = $value;
-                }
+            foreach ($fields as $field => $value) {
+                $model->translateOrNew($locale)->{$field} = $value;
+            }
         }
 
         $model->save();
@@ -177,7 +180,8 @@ class PokemonSeeder extends Seeder
         }
     }
 
-    public function romanToInt($roman) {
+    public function romanToInt($roman)
+    {
         $roman = strtoupper($roman);
 
         $romanValues = [
@@ -209,7 +213,8 @@ class PokemonSeeder extends Seeder
         return $result;
     }
 
-    public function safelyGetId($model, $translationKey, $name) {
+    public function safelyGetId($model, $translationKey, $name)
+    {
         if (empty($name)) return null;
         $item = $model::whereTranslation($translationKey, $name)->first();
         return $item ? $item->id : null;
@@ -255,7 +260,7 @@ class PokemonSeeder extends Seeder
         $this->getClass('type', function ($url) use ($dammageRelations) {
             $this->getObject($url, function ($type) use ($dammageRelations) {
                 $spriteUrl = $type->sprites->{'generation-ix'}->{'scarlet-violet'}->name_icon;
-                if ($spriteUrl){
+                if ($spriteUrl) {
                     $localType = \App\Models\Type::updateOrCreate([
                         'id' => $type->id,
                     ], [
@@ -298,9 +303,10 @@ class PokemonSeeder extends Seeder
         });
     }
 
-    public function seedMoveDamageClasses(){
+    public function seedMoveDamageClasses()
+    {
         $this->getClass('move-damage-class', function ($url) {
-            $this->getObject($url, function ($moveDamageClass){
+            $this->getObject($url, function ($moveDamageClass) {
                 $localMoveDamageClass = \App\Models\MoveDamageClass::updateOrCreate([
                     'id' => $moveDamageClass->id,
                 ], []);
@@ -324,7 +330,7 @@ class PokemonSeeder extends Seeder
     public function seedMoves()
     {
         $this->getClass('move', function ($url) {
-            $this->getObject($url, function ($move){
+            $this->getObject($url, function ($move) {
                 $damageClass = \App\Models\MoveDamageClass::whereTranslation('name', $move->damage_class->name)->first();
                 $type = \App\Models\Type::whereTranslation('name', $move->type->name)->first();
 
@@ -362,7 +368,7 @@ class PokemonSeeder extends Seeder
     public function seedMoveLearnMethods()
     {
         $this->getClass('move-learn-method', function ($url) {
-            $this->getObject($url, function ($moveLearnMethod){
+            $this->getObject($url, function ($moveLearnMethod) {
                 $localMoveLearnMethod = \App\Models\MoveLearnMethod::updateOrCreate([
                     'id' => $moveLearnMethod->id,
                 ], []);
@@ -386,7 +392,7 @@ class PokemonSeeder extends Seeder
     public function seedGameVersions()
     {
         $this->getClass('version-group', function ($url) {
-            $this->getObject($url, function ($version){
+            $this->getObject($url, function ($version) {
                 $gen = $this->romanToInt(str_replace('generation-', '', $version->generation->name));
 
                 $localVersion = \App\Models\GameVersion::updateOrCreate([
@@ -404,8 +410,8 @@ class PokemonSeeder extends Seeder
                         $langKey = $this->translationsBridge[$name->language->name];
 
                         if (isset($names[$langKey])) {
-                            $names[$langKey].= ' / ' . $name->name;
-                        }else{
+                            $names[$langKey] .= ' / ' . $name->name;
+                        } else {
                             $names[$langKey] = $name->name;
                         }
                     }
@@ -422,7 +428,7 @@ class PokemonSeeder extends Seeder
     public function seedAbilities()
     {
         $this->getClass('ability', function ($url) {
-            $this->getObject($url, function ($ability){
+            $this->getObject($url, function ($ability) {
                 $localAbility = \App\Models\Ability::updateOrCreate([
                     'id' => $ability->id,
                 ], []);
@@ -451,7 +457,7 @@ class PokemonSeeder extends Seeder
     public function seedEvolutionTrigger()
     {
         $this->getClass('evolution-trigger', function ($url) {
-            $this->getObject($url, function ($evolutionTrigger){
+            $this->getObject($url, function ($evolutionTrigger) {
                 $localEvolutionTrigger = \App\Models\EvolutionTrigger::updateOrCreate([
                     'id' => $evolutionTrigger->id,
                     'slug' => $evolutionTrigger->name,
@@ -471,7 +477,7 @@ class PokemonSeeder extends Seeder
     public function seedItems()
     {
         $this->getClass('item', function ($url) {
-            $this->getObject($url, function ($item){
+            $this->getObject($url, function ($item) {
                 $localItem = \App\Models\Item::updateOrCreate([
                     'id' => $item->id,
                 ], [
@@ -494,9 +500,10 @@ class PokemonSeeder extends Seeder
         });
     }
 
-    public function seedPokemon(){
+    public function seedPokemon()
+    {
         $this->getClass('pokemon-species', function ($url) {
-            $this->getObject($url, function ($pokemon){
+            $this->getObject($url, function ($pokemon) {
                 $localPokemon = Pokemon::updateOrCreate([
                     'id' => $pokemon->pokedex_numbers[0]->entry_number,
                 ], [
@@ -598,7 +605,7 @@ class PokemonSeeder extends Seeder
                                 'back_shiny_url' => $pokemonVarietyForm->sprites->back_shiny,
                                 'back_shiny_female_url' => $pokemonVarietyForm->sprites->back_shiny_female,
                             ]);
-                        }catch (\Exception $e){
+                        } catch (\Exception $e) {
                             $this->command->warn($e->getMessage());
                         }
 
@@ -627,7 +634,7 @@ class PokemonSeeder extends Seeder
                             }
                         }
 
-                        foreach ($pokemonVariety->moves as $move){
+                        foreach ($pokemonVariety->moves as $move) {
                             $localMove = \App\Models\Move::whereTranslation('name', $move->move->name)->first();
 
                             foreach ($move->version_group_details as $versionGroupDetail) {
@@ -655,58 +662,57 @@ class PokemonSeeder extends Seeder
     public function seedEvolutions()
     {
         $this->getClass('evolution-chain', function ($url) {
-            $this->getObject($url, function ($evolutionChain){
+            $this->getObject($url, function ($evolutionChain) {
 
                 // BOUCLE RÉCURSIVE DE SES GRANDS MORTS POUR RÉCUPÉRER TOUTES LES ÉVOLUTIONS
 
                 $evolutionFn = function ($chain) use (&$evolutionFn) {
-                    if (count($chain->evolves_to) > 0){
+                    if (count($chain->evolves_to) > 0) {
                         foreach ($chain->evolves_to as $evolution) {
                             $trigger = \App\Models\EvolutionTrigger::where('slug', $evolution->evolution_details[0]->trigger->name)->first();
 
                             $fromPokemon = Pokemon::whereTranslation('name', $chain->species->name)->first();
                             $toPokemon = Pokemon::whereTranslation('name', $evolution->species->name)->first();
 
-                            if (!$fromPokemon){
+                            if (!$fromPokemon) {
                                 $pokemonFromAPI = $this->requestPokeApi('pokemon/' . $chain->species->name);
 
                                 $fromPokemon = Pokemon::where('id', $pokemonFromAPI->id)->first();
 
-                                if (!$fromPokemon){
+                                if (!$fromPokemon) {
                                     return;
                                 }
                             }
 
-                            if (!$toPokemon){
+                            if (!$toPokemon) {
                                 $pokemonToAPI = $this->requestPokeApi('pokemon/' . $evolution->species->name);
 
                                 $toPokemon = Pokemon::where('id', $pokemonToAPI->id)->first();
 
-                                if (!$toPokemon){
+                                if (!$toPokemon) {
                                     return;
                                 }
                             }
 
-                            foreach ($fromPokemon->varieties()->get() as $fromVariety){
+                            foreach ($fromPokemon->varieties()->get() as $fromVariety) {
                                 $toVariety = null;
 
-                                if ($fromVariety->is_default === true){
+                                if ($fromVariety->is_default === true) {
                                     $toVariety = $toPokemon->defaultVariety()->first();
-
-                                }elseif ($fromVariety->form_name){
+                                } elseif ($fromVariety->form_name) {
                                     $toVariety = $toPokemon->varieties()->whereTranslation('form_name', $fromVariety->form_name)->first();
                                 }
 
-                                if ($toVariety && $trigger && count($evolution->evolution_details) > 0){
-                                    if ($fromVariety->form_name){
+                                if ($toVariety && $trigger && count($evolution->evolution_details) > 0) {
+                                    if ($fromVariety->form_name) {
                                         $this->command->info('      🟢 Fetching ' . $fromPokemon->name . ' ' . $fromVariety->form_name . ' to ' . $toPokemon->name . ' ' . $toVariety->form_name . '...');
-                                    }else{
+                                    } else {
                                         $this->command->info('      🟢 Fetching ' . $fromPokemon->name . ' to ' . $toPokemon->name . '...');
                                     }
 
                                     $evolutionDetails = $evolution->evolution_details[0] ?? null;
 
-                                    try{
+                                    try {
                                         // Maintenant, utilisons cette approche dans notre updateOrCreate
                                         PokemonEvolution::updateOrCreate([
                                             'pokemon_variety_id' => $fromVariety->id,
@@ -730,11 +736,10 @@ class PokemonSeeder extends Seeder
                                             'turn_upside_down' => $evolutionDetails->turn_upside_down ?? null,
                                             'evolution_trigger_id' => $trigger->id,
                                         ]);
-                                    }catch (\Exception $e){
+                                    } catch (\Exception $e) {
                                         $this->command->warn($e->getMessage());
                                         $this->command->warn($e->getTraceAsString());
                                     }
-
                                 }
                             }
 
