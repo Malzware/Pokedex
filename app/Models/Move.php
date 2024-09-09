@@ -34,15 +34,19 @@ class Move extends Model implements TranslatableContract
         'type_id' => 'integer',
     ];
 
-    // Relation vers la classe de dégâts des mouvements
-    public function moveDamageClass()
+    public function type()
+    {
+        return $this->belongsTo(Type::class);
+    }
+
+    public function damageClass()
     {
         return $this->belongsTo(MoveDamageClass::class);
     }
 
-    // Relation vers le type du mouvement
-    public function type()
+    public function learnMethods()
     {
-        return $this->belongsTo(Type::class);
+        return $this->belongsToMany(MoveLearnMethod::class, 'pokemon_learn_moves')
+                    ->withPivot('pokemon_variety_id', 'game_version_id', 'level');
     }
 }

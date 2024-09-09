@@ -41,7 +41,7 @@ class PokemonSeeder extends Seeder
      */
     public function run(): void
     {
-        /* $this->seedTypes();
+        $this->seedTypes();
         $this->seedMoveDamageClasses();
         $this->seedMoves();
         $this->seedMoveLearnMethods();
@@ -49,7 +49,7 @@ class PokemonSeeder extends Seeder
         $this->seedAbilities();
         $this->seedEvolutionTrigger();
         $this->seedItems();
-        $this->seedPokemon(); */
+        $this->seedPokemon();
         $this->seedEvolutions();
     }
 

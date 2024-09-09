@@ -14,7 +14,7 @@ return new class extends Migration
       Schema::create('pokemon_variety_sprites', function (Blueprint $table) {
         $table->id();
         $table->ForeignIdFor(App\Models\PokemonVariety::class)->constrained()->onDelete('cascade');
-        $table->text('artwork_url');
+        $table->text('artwork_url')->nullable();
         $table->text('artwork_shiny_url')->nullable();
         $table->text('front_url')->nullable();
         $table->text('front_female_url')->nullable();
