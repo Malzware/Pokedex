@@ -21,7 +21,10 @@ class AbilityTranslation extends Model
         'effect' => 'string',
     ];
 
-    // Relation vers le modèle parent Ability
+    /**
+     * Relation Many-to-One avec le modèle Ability.
+     * Chaque traduction appartient à une capacité (Ability).
+     */
     public function ability()
     {
         return $this->belongsTo(Ability::class);

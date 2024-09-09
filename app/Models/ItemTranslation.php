@@ -20,7 +20,10 @@ class ItemTranslation extends Model
         'description' => 'string',
     ];
 
-    // Relation vers l'item parent
+    /**
+     * Relation Many-to-One avec le modèle Item.
+     * Chaque traduction appartient à un seul item.
+     */
     public function item()
     {
         return $this->belongsTo(Item::class);

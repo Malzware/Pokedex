@@ -11,7 +11,7 @@ class PokemonEvolution extends Model
 
     // Liste des attributs autorisés pour la création et la mise à jour des données de manière massive
     protected $fillable = [
-        'pokemon_veriety_id',
+        'pokemon_variety_id', // Correction du nom de colonne
         'evolves_to_id',
         'gender',
         'held_item_id',
@@ -43,7 +43,7 @@ class PokemonEvolution extends Model
     // Relation vers Pokémon variété (Pokémon de départ)
     public function pokemonVariety()
     {
-        return $this->belongsTo(PokemonVariety::class, 'pokemon_veriety_id');
+        return $this->belongsTo(PokemonVariety::class, 'pokemon_variety_id'); // Correction du nom de colonne
     }
 
     // Relation vers Pokémon variété (Pokémon évolué)

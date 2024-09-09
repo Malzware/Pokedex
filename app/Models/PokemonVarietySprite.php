@@ -9,6 +9,7 @@ class PokemonVarietySprite extends Model
 {
   use HasFactory;
 
+  // Liste des attributs autorisés pour la création et la mise à jour des données de manière massive
   protected $fillable = [
     'artwork_url',
     'artwork_shiny_url',
@@ -22,7 +23,8 @@ class PokemonVarietySprite extends Model
     'back_shiny_female_url'
   ];
 
-  public function pokemonVariety()
+  // Relation avec le modèle `PokemonVariety`
+  public function variety()
   {
     return $this->belongsTo(PokemonVariety::class);
   }

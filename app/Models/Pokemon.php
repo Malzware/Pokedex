@@ -25,6 +25,7 @@ class Pokemon extends Model implements TranslatableContract
     'is_mythical' => 'boolean',
   ];
 
+  // Dans le modèle `Pokemon` :
   public function varieties()
   {
     return $this->hasMany(PokemonVariety::class);

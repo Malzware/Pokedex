@@ -19,7 +19,10 @@ class GameVersionTranslation extends Model
         'name' => 'string',
     ];
 
-    // Relation vers le modèle parent GameVersion
+    /**
+     * Relation Many-to-One avec le modèle GameVersion.
+     * Chaque traduction appartient à une version de jeu.
+     */
     public function gameVersion()
     {
         return $this->belongsTo(GameVersion::class);

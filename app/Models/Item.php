@@ -21,4 +21,22 @@ class Item extends Model implements TranslatableContract
     protected $casts = [
         'sprite_url' => 'string',
     ];
+
+    /**
+     * Relation One-to-Many avec PokemonEvolution.
+     * Un objet peut être utilisé dans plusieurs évolutions Pokémon.
+     */
+    public function heldEvolutions()
+    {
+        return $this->hasMany(PokemonEvolution::class, 'held_item_id');
+    }
+
+    /**
+     * Relation One-to-Many avec PokemonEvolution.
+     * Un objet peut être utilisé dans plusieurs évolutions Pokémon en tant qu'objet.
+     */
+    public function itemEvolutions()
+    {
+        return $this->hasMany(PokemonEvolution::class, 'item_id');
+    }
 }

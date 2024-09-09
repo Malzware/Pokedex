@@ -30,24 +30,24 @@ class PokemonLearnMove extends Model
     // Relation vers la variété de Pokémon
     public function pokemonVariety()
     {
-        return $this->belongsTo(PokemonVariety::class);
+        return $this->belongsTo(PokemonVariety::class, 'pokemon_variety_id'); // Ajout de la clé étrangère pour plus de clarté
     }
 
     // Relation vers le mouvement
     public function move()
     {
-        return $this->belongsTo(Move::class);
+        return $this->belongsTo(Move::class, 'move_id'); // Ajout de la clé étrangère pour plus de clarté
     }
 
     // Relation vers la méthode d'apprentissage du mouvement
     public function moveLearnMethod()
     {
-        return $this->belongsTo(MoveLearnMethod::class);
+        return $this->belongsTo(MoveLearnMethod::class, 'move_learn_method_id'); // Ajout de la clé étrangère pour plus de clarté
     }
 
     // Relation vers la version du jeu
     public function gameVersion()
     {
-        return $this->belongsTo(GameVersion::class);
+        return $this->belongsTo(GameVersion::class, 'game_version_id'); // Ajout de la clé étrangère pour plus de clarté
     }
 }

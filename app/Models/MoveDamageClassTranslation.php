@@ -20,7 +20,10 @@ class MoveDamageClassTranslation extends Model
         'description' => 'string',
     ];
 
-    // Relation vers la classe de dégâts des mouvements parent
+    /**
+     * Relation Many-to-One avec MoveDamageClass.
+     * Chaque traduction appartient à une seule classe de dégâts.
+     */
     public function moveDamageClass()
     {
         return $this->belongsTo(MoveDamageClass::class);

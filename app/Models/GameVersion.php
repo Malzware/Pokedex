@@ -22,9 +22,21 @@ class GameVersion extends Model implements TranslatableContract
         'generation' => 'integer',
     ];
 
-    // Définition des relations avec d'autres modèles si nécessaire
+    /**
+     * Relation One-to-Many avec GameVersionTranslation.
+     * Une version de jeu peut avoir plusieurs traductions.
+     */
     public function gameVersionTranslations()
     {
         return $this->hasMany(GameVersionTranslation::class);
+    }
+
+    /**
+     * Relation One-to-Many avec PokemonLearnMove.
+     * Une version de jeu peut être liée à plusieurs mouvements appris par les Pokémon.
+     */
+    public function pokemonLearnMoves()
+    {
+        return $this->hasMany(PokemonLearnMove::class);
     }
 }

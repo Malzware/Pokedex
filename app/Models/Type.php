@@ -22,9 +22,10 @@ class Type extends Model implements TranslatableContract
         'sprite_url' => 'string',
     ];
 
-    // Définition de la relation many-to-many avec Pokemon
-    public function pokemon()
+    // Relation avec les variétés de Pokémon
+    public function varieties()
     {
-        return $this->belongsToMany(Pokemon::class);
+        return $this->belongsToMany(PokemonVariety::class, 'pokemon_variety_type')
+            ->withPivot('slot');
     }
 }

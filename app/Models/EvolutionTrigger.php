@@ -17,4 +17,12 @@ class EvolutionTrigger extends Model implements TranslatableContract
     // Liste des attributs autorisés pour la création et la mise à jour des données de manière massive
     protected $fillable = ['slug'];
 
+    /**
+     * Relation One-to-Many avec PokemonEvolution.
+     * Un déclencheur d'évolution peut être utilisé dans plusieurs évolutions.
+     */
+    public function evolutions()
+    {
+        return $this->hasMany(PokemonEvolution::class);
+    }
 }

@@ -19,7 +19,10 @@ class EvolutionTriggerTranslation extends Model
         'name' => 'string',
     ];
 
-    // Relation vers le modèle parent EvolutionTrigger
+    /**
+     * Relation Many-to-One avec le modèle EvolutionTrigger.
+     * Chaque traduction appartient à un déclencheur d'évolution.
+     */
     public function evolutionTrigger()
     {
         return $this->belongsTo(EvolutionTrigger::class);

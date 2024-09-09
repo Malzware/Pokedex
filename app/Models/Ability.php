@@ -14,9 +14,16 @@ class Ability extends Model implements TranslatableContract
     // Liste des attributs traduits
     public $translatedAttributes = ['name', 'description', 'effect'];
 
-    // Définition des relations avec d'autres modèles si nécessaire
-    public function abilityTranslations()
+    // Liste des attributs fillable (mass-assignable)
+    protected $fillable = [];
+
+    /**
+     * Relation Many-to-Many avec PokemonVariety.
+     * Chaque capacité peut être associée à plusieurs variétés de Pokémon via la table ability_pokemon_variety.
+     */
+    public function varieties()
     {
-        return $this->hasMany(AbilityTranslation::class);
+        return $this->belongsToMany(PokemonVariety::class, 'ability_pokemon_variety')
+            ->withPivot('is_hidden', 'slot');
     }
 }
