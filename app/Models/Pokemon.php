@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
+namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
+use Laravel\Scout\Searchable; // <--- here
 
 class Pokemon extends Model implements TranslatableContract
 {
-  use HasFactory, Translatable;
+  use HasFactory, Translatable, Searchable; // <--- and here
 
   // Liste des attributs traduits
   public $translatedAttributes = ['name', 'category'];
@@ -40,5 +43,16 @@ class Pokemon extends Model implements TranslatableContract
   public function catchByUsers()
   {
     return $this->belongsToMany(User::class);
+  }
+
+  /**
+   * Get the indexable data array for the model.
+   *
+   * @return array<string, mixed>
+   */
+  public function toSearchableArray(): array
+  {
+    return $this->load(['varieties', 'varieties.types'])
+      ->toArray();
   }
 }

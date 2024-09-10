@@ -10,6 +10,7 @@ Route::get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'pokemon'], function (){
     Route::get('/', [PokemonController::class, 'index']);
+    Route::get('/search', [PokemonController::class, 'search']); // <--- here
     Route::get('/{pokemon}', [PokemonController::class, 'show']);
     Route::get('/{pokemon}/varieties', [PokemonController::class, 'showVarieties']);
 });
