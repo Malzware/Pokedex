@@ -42,7 +42,7 @@ class PokemonVariety extends Model implements TranslatableContract
   }
 
   // Relation avec le modèle `PokemonVarietySprite`
-  public function sprite()
+  public function sprites()
   {
     return $this->hasOne(PokemonVarietySprite::class);
   }
