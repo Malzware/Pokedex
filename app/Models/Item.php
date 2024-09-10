@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
+use Laravel\Scout\Searchable; // <--- here
 
 class Item extends Model implements TranslatableContract
 {
-    use HasFactory, Translatable;
+    use HasFactory, Translatable, Searchable; // <--- and here
 
     // Liste des attributs traduits
     public $translatedAttributes = ['name', 'description'];
@@ -23,20 +24,13 @@ class Item extends Model implements TranslatableContract
     ];
 
     /**
-     * Relation One-to-Many avec PokemonEvolution.
-     * Un objet peut être utilisé dans plusieurs évolutions Pokémon.
+     * Get the indexable data array for the model.
+     *
+     * @return array<string, mixed>
      */
-    public function heldEvolutions()
+    public function toSearchableArray(): array
     {
-        return $this->hasMany(PokemonEvolution::class, 'held_item_id');
-    }
-
-    /**
-     * Relation One-to-Many avec PokemonEvolution.
-     * Un objet peut être utilisé dans plusieurs évolutions Pokémon en tant qu'objet.
-     */
-    public function itemEvolutions()
-    {
-        return $this->hasMany(PokemonEvolution::class, 'item_id');
+        return $this->load([])
+            ->toArray();
     }
 }
