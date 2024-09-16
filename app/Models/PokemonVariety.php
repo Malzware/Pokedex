@@ -67,4 +67,19 @@ class PokemonVariety extends Model implements TranslatableContract
     return $this->belongsToMany(Move::class, 'pokemon_learn_moves')
       ->withPivot('move_learn_method_id', 'game_version_id', 'level');
   }
+
+  public function learnedMoves()
+  {
+    return $this->hasMany(PokemonLearnMove::class, 'pokemon_variety_id');
+  }
+
+  public function evolutions()
+  {
+    return $this->hasMany(PokemonEvolution::class, 'pokemon_variety_id');
+  }
+
+  public function evolvesTo()
+{
+    return $this->belongsTo(PokemonVariety::class, 'evolves_to_id');
+}
 }
