@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pokemon;
-use App\Models\PokemonEvolution;
-use App\Models\PokemonLearnMove;
 use Illuminate\Http\Request;
 
 class PokemonController extends Controller
