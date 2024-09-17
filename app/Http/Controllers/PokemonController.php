@@ -26,13 +26,18 @@ class PokemonController extends Controller
     public function showEvolution(Pokemon $pokemon)
     {
         return $pokemon->varieties()->with('evolutions.evolvesTo.sprites', 'evolutions.evolvesTo.types')->get();
-    }    
+    }
 
     public function showMoves(Pokemon $pokemon)
     {
         return $pokemon->varieties()->with(['learnedMoves.move', 'learnedMoves.move.damageClass', 'learnedMoves.move.type', 'learnedMoves.moveLearnMethod', 'abilities'])->get();
     }
-    
+
+    public function showAbilities(Pokemon $pokemon)
+    {
+        return $pokemon->varieties()->with(['abilities'])->get();
+    }
+
     public function search(Request $request)
     {
         return Pokemon::search($request->input('query'))
