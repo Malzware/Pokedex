@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pokemon;
-use App\Models\PokemonVariety; // Assurez-vous d'importer le modèle
 use Illuminate\Http\Request;
 
 class PokemonController extends Controller
@@ -41,7 +40,6 @@ class PokemonController extends Controller
                 $moves[$move->id] = $move;
             }
         }
-
         return array_values($moves);
     }
 

@@ -1,11 +1,13 @@
 import { Ability } from "./ability";
 import { Move } from "./move";
+import { Evolution } from "./evolution";
 import {Type} from "./type"; // <- here
 
 export interface PokemonVariety {
   types?: Type[]; // <- here
   abilities: Ability[];
   moves: Move[];
+  evolutions: Evolution[];
   base_experience?: number;
   base_stat_attack: number;
   base_stat_defense: number;
