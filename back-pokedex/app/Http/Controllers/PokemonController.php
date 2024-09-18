@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pokemon;
+use App\Models\PokemonVariety; // Assurez-vous d'importer le modèle
 use Illuminate\Http\Request;
 
 class PokemonController extends Controller
@@ -30,12 +31,30 @@ class PokemonController extends Controller
 
     public function showMoves(Pokemon $pokemon)
     {
-        return $pokemon->varieties()->with(['learnedMoves.move', 'learnedMoves.move.damageClass', 'learnedMoves.move.type', 'learnedMoves.moveLearnMethod', 'abilities'])->get();
+        $varieties = $pokemon->varieties()
+            ->with(['moves'])
+            ->get();
+
+        $moves = [];
+        foreach ($varieties as $variety) {
+            foreach ($variety->moves as $move) {
+                $moves[$move->id] = $move;
+            }
+        }
+
+        return array_values($moves);
     }
 
     public function showAbilities(Pokemon $pokemon)
     {
-        return $pokemon->varieties()->with(['abilities'])->get();
+        $varieties = $pokemon->varieties()->with('abilities')->get();
+        $abilities = [];
+        foreach ($varieties as $variety) {
+            foreach ($variety->abilities as $ability) {
+                $abilities[] = $ability;
+            }
+        }
+        return $abilities;
     }
 
     public function search(Request $request)

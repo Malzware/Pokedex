@@ -13,7 +13,7 @@ Route::group(['prefix' => 'pokemon'], function () {
     Route::get('/search', [PokemonController::class, 'search']);
     Route::get('/{pokemon}', [PokemonController::class, 'show']);
     Route::get('/{pokemon}/varieties', [PokemonController::class, 'showVarieties']);
-    Route::get('/{pokemon}/evolutions', [PokemonController::class, 'showEvolution']);
-    Route::get('/{pokemon}/moves', [PokemonController::class, 'showMoves']);
-    Route::get('/{pokemon}/abilities', [PokemonController::class, 'showAbilities']);
+    Route::get('/{pokemon}/varieties/evolutions', [PokemonController::class, 'showEvolution']);
+    Route::get('/{pokemon}/varieties/moves', [PokemonController::class, 'showMoves']);
+    Route::get('/{pokemon}/varieties/abilities', [PokemonController::class, 'showAbilities']);
 });
