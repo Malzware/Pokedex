@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Pokemon;
 use Illuminate\Http\Request;
 
@@ -25,8 +24,8 @@ class PokemonController extends Controller
 
     public function showEvolution(Pokemon $pokemon)
     {
-        return $pokemon->varieties()->with('evolutions.evolvesTo.sprites', 'evolutions.evolvesTo.types')->get();
-    }
+        return $pokemon->varieties()->with(['evolutions.evolvesTo.sprites', 'evolutions.evolvesTo.types'])->get();
+    }    
 
     public function showMoves(Pokemon $pokemon)
     {
