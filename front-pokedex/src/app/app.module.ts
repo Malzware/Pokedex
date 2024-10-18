@@ -9,7 +9,10 @@ import { PokemonListComponent } from './pages/pokemon-list/pokemon-list.componen
 import { PokemonCardComponent } from './shared/layouts/pokemon-card/pokemon-card.component';
 import { PokemonDetailComponent } from './pages/pokemon-detail/pokemon-detail.component';
 import { TranslocoRootModule } from './transloco-root.module';
-import { LangSelectorComponent } from './shared/layouts/lang-selector/lang-selector.component'; // Import du provider
+import { LangSelectorComponent } from './shared/layouts/lang-selector/lang-selector.component';
+import { PokemonInfoComponent } from './pages/pokemon-info/pokemon-info.component';
+import { PokemonStatsComponent } from './pages/pokemon-stats/pokemon-stats.component';
+import { PokemonAbilitiesMovesComponent } from './pages/pokemon-abilities-moves/pokemon-abilities-moves.component'; // Import du provider
 
 @NgModule({
   declarations: [
@@ -17,7 +20,10 @@ import { LangSelectorComponent } from './shared/layouts/lang-selector/lang-selec
     PokemonListComponent,
     PokemonCardComponent,
     PokemonDetailComponent,
-    LangSelectorComponent
+    LangSelectorComponent,
+    PokemonInfoComponent,
+    PokemonStatsComponent,
+    PokemonAbilitiesMovesComponent
   ],
   imports: [
     BrowserModule,

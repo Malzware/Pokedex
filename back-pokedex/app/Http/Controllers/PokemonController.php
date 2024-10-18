@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Pokemon;
 use Illuminate\Http\Request;
 
@@ -29,11 +30,9 @@ class PokemonController extends Controller
 
     public function showMoves(Pokemon $pokemon)
     {
-        $varieties = $pokemon->varieties()
-            ->with(['moves'])
-            ->get();
-
+        $varieties = $pokemon->varieties()->with(['moves'])->get();
         $moves = [];
+
         foreach ($varieties as $variety) {
             foreach ($variety->moves as $move) {
                 $moves[$move->id] = $move;
@@ -46,6 +45,7 @@ class PokemonController extends Controller
     {
         $varieties = $pokemon->varieties()->with('abilities')->get();
         $abilities = [];
+
         foreach ($varieties as $variety) {
             foreach ($variety->abilities as $ability) {
                 $abilities[] = $ability;

@@ -9,7 +9,7 @@ import { ActivatedRoute } from "@angular/router";
 @Component({
   selector: 'app-pokemon-detail',
   templateUrl: './pokemon-detail.component.html',
-  styleUrl: './pokemon-detail.component.scss'
+  styleUrls: ['./pokemon-detail.component.scss']
 })
 export class PokemonDetailComponent {
 
@@ -17,6 +17,30 @@ export class PokemonDetailComponent {
   abilities!: Ability[];
   moves!: Move[];
   evolutions!: PokemonVariety[];
+  selectedTab: number = 1; // Onglet par défaut
+
+  // Correspondance des couleurs pour chaque type
+  private readonly TYPE_COLORS: { [key: string]: string } = {
+    normal: '#A8A77A',
+    fighting: '#C22E28',
+    flying: '#A98FF3',
+    poison: '#A33EA1',
+    ground: '#E2BF65',
+    rock: '#B6A136',
+    bug: '#A6B91A',
+    ghost: '#735797',
+    steel: '#B7B7CE',
+    fire: '#EE8130',
+    water: '#6390F0',
+    grass: '#7AC74C',
+    electric: '#F7D02C',
+    psychic: '#F95587',
+    ice: '#96D9D6',
+    dragon: '#6F35FC',
+    dark: '#705746',
+    fairy: '#D685AD',
+    stellar: '#E2E2E2' // Couleur spécifique pour 'stellar'
+  };
 
   constructor(
     private apiService: ApiService,
@@ -26,36 +50,63 @@ export class PokemonDetailComponent {
     this.route.params.subscribe(params => {
       const pokemonId = params['pokemon_id'];
       if (pokemonId) {
-        // Appel de l'API pour récupérer les informations du Pokémon
         this.apiService.requestApi(`/pokemon/${pokemonId}`)
           .then((response: Pokemon) => {
             this.pokemon = response;
+          })
+          .catch((error) => {
+            console.error('Erreur lors de la récupération des détails du Pokémon', error);
           });
 
-        // Appel de l'API pour récupérer les abilities du Pokémon
         this.apiService.requestApi(`/pokemon/${pokemonId}/varieties/abilities`)
           .then((response: Ability[]) => {
             this.abilities = response;
+          })
+          .catch((error) => {
+            console.error('Erreur lors de la récupération des abilities du Pokémon', error);
           });
 
-        // Appel de l'API pour récupérer les moves du Pokémon
         this.apiService.requestApi(`/pokemon/${pokemonId}/varieties/moves`)
           .then((response: Move[]) => {
             this.moves = response;
+          })
+          .catch((error) => {
+            console.error('Erreur lors de la récupération des moves du Pokémon', error);
           });
 
-        // Appel de l'API pour récupérer les evolutions du Pokémon
         this.apiService.requestApi(`/pokemon/${pokemonId}/varieties/evolutions`)
           .then((response: PokemonVariety[]) => {
             this.evolutions = response;
+          })
+          .catch((error) => {
+            console.error('Erreur lors de la récupération des évolutions du Pokémon', error);
           });
-
-        // Appel de l'API pour récupérer les evolutions du Pokémon
-        this.apiService.requestApi(`/pokemon/${pokemonId}/varieties/evolutions`)
-        .then((response: PokemonVariety[]) => {
-          this.evolutions = response;
-        });
       }
     });
+  }
+
+  // Fonction pour changer d'onglet
+  selectTab(tabIndex: number): void {
+    this.selectedTab = tabIndex;
+  }
+
+  // Fonction pour générer un style de fond en fonction des types
+  getBackgroundStyle(): string {
+    if (!this.pokemon || !this.pokemon.default_variety.types) {
+      return '';
+    }
+
+    const types = this.pokemon.default_variety.types.map(type => type.name.toLowerCase());
+
+    if (types.length === 1) {
+      // Un seul type, couleur unie
+      return this.TYPE_COLORS[types[0]];
+    } else if (types.length === 2) {
+      // Deux types, appliquer un dégradé
+      const color1 = this.TYPE_COLORS[types[0]];
+      const color2 = this.TYPE_COLORS[types[1]];
+      return `linear-gradient(to top right, ${color1}, ${color2})`;
+    }
+    return '';
   }
 }
