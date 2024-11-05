@@ -1,18 +1,18 @@
-<div class="font-courgette">
-    <h2 class="text-lg font-semibold">Abilities:</h2>
-    <ul>
-      <li *ngFor="let ability of abilities">
-        <strong>Nom:</strong> {{ ability.name }}<br>
-        <strong>Description:</strong> {{ ability.description }}<br>
-        <strong>Effet:</strong> {{ ability.effect }}<br>
-      </li>
-    </ul>
-  
-    <h2 class="text-lg font-semibold">Moves:</h2>
-    <ul>
-      <li *ngFor="let move of moves">
-        <strong>Nom:</strong> {{ move.name }}<br>
-      </li>
-    </ul>
-  </div>
-  
+<div class="stats-container">
+  <h2>Capacités</h2>
+  <hr class="title-divider">
+  <h1>Talents:</h1> <!-- Titre centré et souligné -->
+  <ul>
+    <li *ngFor="let ability of abilities">
+      <h2>{{ ability.name }}</h2> <!-- Applique la classe p -->
+      <p>{{ ability.effect }}</p> <!-- Applique la classe p -->
+      <br>
+    </li>
+  </ul>
+  <h2>Capacités de base :</h2> <!-- Laissez le titre "Moves" sans changement -->
+  <ul>
+    <li *ngFor="let move of moves">
+      <p>{{ move.move_damage_class_id }} {{ move.name }}</p> <!-- Applique la classe p -->
+    </li>
+  </ul>
+</div>

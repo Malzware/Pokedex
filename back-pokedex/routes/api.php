@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PokemonController;
+use App\Http\Controllers\AuthController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -17,3 +18,6 @@ Route::group(['prefix' => 'pokemon'], function () {
     Route::get('/{pokemon}/varieties/moves', [PokemonController::class, 'showMoves']);
     Route::get('/{pokemon}/varieties/abilities', [PokemonController::class, 'showAbilities']);
 });
+
+Route::get('/login/google', [AuthController::class, 'redirectToProvider']);
+Route::get('/auth/callback/google', [AuthController::class, 'handleProviderCallback']);

@@ -5,41 +5,45 @@
 
 <!-- Section principale avec l'image du Pokémon et les types -->
 <div class="flex items-center justify-center p-4 relative" [ngStyle]="{'background': getBackgroundStyle()}">
-  <img [src]="pokemon.default_variety.sprites?.artwork_url" [alt]="pokemon.name" class="w-full max-w-md border rounded-md shadow-md">
-  
+  <img [src]="pokemon.default_variety.sprites?.artwork_url" [alt]="pokemon.name"
+    class="w-full max-w-md border rounded-md shadow-md">
+
   <!-- Types du Pokémon (affichés en haut à gauche) -->
   <div class="absolute top-0 left-0 p-4 flex flex-col gap-2">
     <img *ngFor="let type of pokemon.default_variety.types" [src]="type.sprite_url" [alt]="type.name" class="h-6">
   </div>
 </div>
 
-<!-- Sprites du Pokémon (normaux et shiny) -->
+<!-- Sprites du Pokémon (normaux et shiny) 
 <div class="flex items-center justify-center gap-3 mt-4">
   <img [src]="pokemon.default_variety.sprites?.front_url" alt="front sprite" class="h-24 w-24 p-1 bg-neutral rounded-lg">
   <img [src]="pokemon.default_variety.sprites?.front_shiny_url" alt="front sprite shiny" class="h-24 w-24 p-1 bg-neutral rounded-lg">
   <img [src]="pokemon.default_variety.sprites?.back_url" alt="back sprite" class="h-24 w-24 p-1 bg-neutral rounded-lg">
   <img [src]="pokemon.default_variety.sprites?.back_shiny_url" alt="back sprite shiny" class="h-24 w-24 p-1 bg-neutral rounded-lg">
-</div>
+</div> -->
 
 <!-- Onglets pour les détails du Pokémon (grandes tailles d'écran) -->
 <div role="tablist" class="tabs tabs-bordered mt-6">
   <div class="hidden lg:flex lg:space-x-6">
-    <div class="flex-1 rounded-lg p-4 shadow-lg bg-gray-100 h-full">
+    <div>
       <app-pokemon-info [pokemon]="pokemon" [evolutions]="evolutions"></app-pokemon-info>
     </div>
-    <div class="flex-1 rounded-lg p-4 shadow-lg bg-gray-100 h-full">
+    <div>
       <app-pokemon-stats [pokemon]="pokemon"></app-pokemon-stats>
     </div>
-    <div class="flex-1 rounded-lg p-4 shadow-lg bg-gray-100 h-full">
+    <div>
       <app-pokemon-abilities-moves [abilities]="abilities" [moves]="moves"></app-pokemon-abilities-moves>
     </div>
   </div>
 
   <!-- Onglets pour les détails (mobiles) -->
   <div class="lg:hidden">
-    <input type="radio" name="my_tabs" class="tab" (click)="selectTab(1)" [checked]="selectedTab === 1" aria-label="Tab 1" />
-    <input type="radio" name="my_tabs" class="tab" (click)="selectTab(2)" [checked]="selectedTab === 2" aria-label="Tab 2" />
-    <input type="radio" name="my_tabs" class="tab" (click)="selectTab(3)" [checked]="selectedTab === 3" aria-label="Tab 3" />
+    <input type="radio" name="my_tabs" class="tab" (click)="selectTab(1)" [checked]="selectedTab === 1"
+      aria-label="Tab 1" />
+    <input type="radio" name="my_tabs" class="tab" (click)="selectTab(2)" [checked]="selectedTab === 2"
+      aria-label="Tab 2" />
+    <input type="radio" name="my_tabs" class="tab" (click)="selectTab(3)" [checked]="selectedTab === 3"
+      aria-label="Tab 3" />
 
     <div *ngIf="selectedTab === 1">
       <app-pokemon-info [pokemon]="pokemon" [evolutions]="evolutions"></app-pokemon-info>
@@ -52,4 +56,3 @@
     </div>
   </div>
 </div>
-

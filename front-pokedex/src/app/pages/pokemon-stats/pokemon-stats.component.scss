@@ -1,0 +1,107 @@
+/* Conteneur principal pour les statistiques */
+.stats-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Titre principal et sous-titre */
+.stats-container h2 {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.stats-container h1 {
+    font-weight: bold;
+    text-decoration: underline;
+    margin-bottom: 20px;
+}   
+
+/* Liste des statistiques */
+.stats-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Style des éléments de la liste */
+.stats-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+/* Style des étiquettes et valeurs des statistiques */
+.stat-label {
+    width: 150px;
+    font-weight: bold;
+    text-align: left;
+}
+
+/* Barres de progression personnalisées */
+.custom-progress {
+    width: 200px;
+    height: 19px;
+    background-color: transparent;
+}
+
+.custom-progress::-webkit-progress-bar {
+    background-color: transparent;
+}
+
+/* Couleurs des barres de progression */
+.progress-green::-webkit-progress-value {
+    background-color: #63E44E;
+}
+
+.progress-red::-webkit-progress-value {
+    background-color: #EF3838;
+}
+
+.progress-blue::-webkit-progress-value {
+    background-color: #4BCCE8;
+}
+
+.progress-orange::-webkit-progress-value {
+    background-color: #ED8C31;
+}
+
+.progress-purple::-webkit-progress-value {
+    background-color: #AD33D8;
+}
+
+.progress-darkblue::-webkit-progress-value {
+    background-color: #274AC6;
+}
+
+/* Firefox Styles */
+.progress-green::-moz-progress-bar {
+    background-color: #63E44E;
+}
+
+.progress-red::-moz-progress-bar {
+    background-color: #EF3838;
+}
+
+.progress-blue::-moz-progress-bar {
+    background-color: #4BCCE8;
+}
+
+.progress-orange::-moz-progress-bar {
+    background-color: #ED8C31;
+}
+
+.progress-purple::-moz-progress-bar {
+    background-color: #AD33D8;
+}
+
+.progress-darkblue::-moz-progress-bar {
+    background-color: #274AC6;
+}
