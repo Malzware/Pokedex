@@ -1,6 +1,16 @@
 <h1 class="flex items-center mb-6 justify-between">
-  <a [routerLink]="['/']" class="btn btn-circle btn-primary ml-2">←</a>
+  <!-- Bouton flèche sans texte, avec un trait vertical à gauche -->
+  <a [routerLink]="['/']" >
+    ←
+  </a>
+  
+  <!-- Trait vertical entre la flèche et l'ID -->
+  <span class="border-l-2 border-gray-400 h-6 mx-2"></span> 
+  
+  <!-- Affichage de l'ID -->
   <span class="text-sm">#{{ pokemon.id }}</span>
+
+  <!-- Nom du Pokémon centré -->
   <span class="flex-grow text-center">{{ pokemon.name }}</span>
 </h1>
 
@@ -9,17 +19,26 @@
 <div class="flex items-center justify-center p-4 relative" [ngStyle]="{'background': getBackgroundStyle()}">
   <img [src]="pokemon.default_variety.sprites?.artwork_url" [alt]="pokemon.name">
 
-  <!-- Types du Pokémon (affichés en bas à gauche) -->
-  <div class="absolute bottom-0 left-0 p-4 flex flex-col gap-2" style="border-radius: 0;">
+  <!-- Types du Pokémon (affichés en bas à gauche, alignés horizontalement) -->
+  <div class="absolute bottom-0 left-0 p-4 flex flex-row gap-2" style="border-radius: 0;">
     <img *ngFor="let type of pokemon.default_variety.types" [src]="type.sprite_url" [alt]="type.name" class="h-6">
   </div>
-</div>
 
-<!-- Bouton pour écouter le cri -->
-<div class="flex items-center justify-center mt-4">
-  <button class="btn btn-primary" (click)="playCry()">
-    ▶️ Écouter le cri
-  </button>
+  <!-- Bouton pour écouter le cri avec un triangle "Play" en haut à droite -->
+  <div class="absolute top-0 right-0 p-4">
+    <button class="btn btn-circle btn-primary" (click)="playCry()">
+      <!-- Icône SVG pour le triangle Play -->
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6 text-white"
+        fill="currentColor"
+        viewBox="0 0 24 24"
+        stroke="none">  <!-- Aucun contour -->
+        <path
+          d="M5 3l14 9-14 9V3z" />  <!-- Chemin pour dessiner le triangle -->
+      </svg>
+    </button>
+  </div>
 </div>
 
 <!-- Élément audio pour jouer le son -->
