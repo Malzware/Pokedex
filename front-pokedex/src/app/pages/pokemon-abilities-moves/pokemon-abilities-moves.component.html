@@ -1,18 +1,41 @@
 <div class="stats-container">
   <h2>Capacités</h2>
   <hr class="title-divider">
-  <h1>Talents:</h1> <!-- Titre centré et souligné -->
+  <h1>Talents:</h1>
   <ul>
     <li *ngFor="let ability of abilities">
-      <h2>{{ ability.name }}</h2> <!-- Applique la classe p -->
-      <p>{{ ability.effect }}</p> <!-- Applique la classe p -->
+      <h2>{{ ability.name }}</h2>
+      <p>{{ ability.effect }}</p>
       <br>
     </li>
   </ul>
-  <h2>Capacités de base :</h2> <!-- Laissez le titre "Moves" sans changement -->
+  <h2>Capacités de base :</h2>
   <ul>
     <li *ngFor="let move of moves">
-      <p>{{ move.move_damage_class_id }} {{ move.name }}</p> <!-- Applique la classe p -->
+      <p>{{ move.type_id }} {{ move.name }}</p>
+      <button class="btn" (click)="openModal(move)">Voir Détails</button>
     </li>
   </ul>
 </div>
+
+<!-- Modal -->
+<dialog id="my_modal_3" class="modal">
+  <div class="modal-box">
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    </form>
+    <div *ngIf="selectedMove; else noMoveSelected">
+      <!-- Vérifier si selectedMove est défini avant de l'utiliser -->
+      <h3 class="text-lg font-bold">{{ selectedMove?.name }}</h3>
+      <p><strong>Type:</strong> {{ selectedMove?.type_id }}</p>
+      <p><strong>Description:</strong> {{ selectedMove?.description }}</p>
+      <p><strong>Puissance:</strong> {{ selectedMove?.power }}</p>
+      <p><strong>Précision:</strong> {{ selectedMove?.accuracy }}%</p>
+      <p><strong>PP:</strong> {{ selectedMove?.pp }}</p>
+      <p><strong>Obtention au niveau:</strong> {{ selectedMove?.pivot?.level }}</p> <!-- Navigation sécurisée pour pivot -->
+    </div>
+    <ng-template #noMoveSelected>
+      <p>Aucun mouvement sélectionné.</p>
+    </ng-template>
+  </div>
+</dialog>
