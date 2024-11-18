@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Pokemon } from "../../shared/interfaces/pokemon";
 import { Ability } from "../../shared/interfaces/ability";
 import { Move } from "../../shared/interfaces/move";
@@ -18,6 +18,7 @@ export class PokemonDetailComponent {
   moves!: Move[];
   evolutions!: PokemonVariety[];
   selectedTab: number = 1; // Onglet par défaut
+  @ViewChild('pokemonCry') pokemonCry!: ElementRef<HTMLAudioElement>;
 
   // Correspondance des couleurs pour chaque type
   private readonly TYPE_COLORS: { [key: string]: string } = {
@@ -109,4 +110,10 @@ export class PokemonDetailComponent {
     }
     return '';
   }
+
+  playCry(): void {
+    if (this.pokemonCry && this.pokemonCry.nativeElement) {
+      this.pokemonCry.nativeElement.play();
+    }
+  }  
 }

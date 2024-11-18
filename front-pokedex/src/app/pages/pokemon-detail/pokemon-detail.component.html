@@ -1,18 +1,29 @@
-<h1 class="flex items-center mb-6">
-  <a [routerLink]="['/']" class="btn btn-circle btn-primary mr-2">←</a>
-  {{ pokemon.name }} <span class="ml-4 text-sm">#{{ pokemon.id }}</span>
+<h1 class="flex items-center mb-6 justify-between">
+  <a [routerLink]="['/']" class="btn btn-circle btn-primary ml-2">←</a>
+  <span class="text-sm">#{{ pokemon.id }}</span>
+  <span class="flex-grow text-center">{{ pokemon.name }}</span>
 </h1>
+
 
 <!-- Section principale avec l'image du Pokémon et les types -->
 <div class="flex items-center justify-center p-4 relative" [ngStyle]="{'background': getBackgroundStyle()}">
-  <img [src]="pokemon.default_variety.sprites?.artwork_url" [alt]="pokemon.name"
-    class="w-full max-w-md border rounded-md shadow-md">
+  <img [src]="pokemon.default_variety.sprites?.artwork_url" [alt]="pokemon.name">
 
-  <!-- Types du Pokémon (affichés en haut à gauche) -->
-  <div class="absolute top-0 left-0 p-4 flex flex-col gap-2">
+  <!-- Types du Pokémon (affichés en bas à gauche) -->
+  <div class="absolute bottom-0 left-0 p-4 flex flex-col gap-2" style="border-radius: 0;">
     <img *ngFor="let type of pokemon.default_variety.types" [src]="type.sprite_url" [alt]="type.name" class="h-6">
   </div>
 </div>
+
+<!-- Bouton pour écouter le cri -->
+<div class="flex items-center justify-center mt-4">
+  <button class="btn btn-primary" (click)="playCry()">
+    ▶️ Écouter le cri
+  </button>
+</div>
+
+<!-- Élément audio pour jouer le son -->
+<audio #pokemonCry [src]="pokemon.default_variety?.cry_url"></audio>
 
 <!-- Sprites du Pokémon (normaux et shiny) 
 <div class="flex items-center justify-center gap-3 mt-4">
