@@ -1,4 +1,4 @@
-<h1 class="flex items-center mb-6 justify-between">
+<h1 class="grid grid-cols-[auto_1fr_auto] items-center mb-6">
   <!-- Bouton flèche sans texte, avec un trait vertical à gauche -->
   <a [routerLink]="['/']">
     ←
@@ -11,18 +11,16 @@
   <span class="text-sm">#{{ pokemon.id }}</span>
 
   <!-- Nom du Pokémon centré -->
-  <span class="flex-grow text-center">{{ pokemon.name }}</span>
+  <span class="text-center">{{ pokemon.name }}</span>
 </h1>
 
-
 <!-- Section principale avec l'image du Pokémon et les types -->
-<div class="flex items-center justify-center p-4 relative" [ngStyle]="{'background': getBackgroundStyle()}">
+<div class="grid place-items-center p-4 relative" [ngStyle]="{'background': getBackgroundStyle()}">
   <img *ngIf="!showShiny" [src]="pokemon.default_variety.sprites?.artwork_url" [alt]="pokemon.name">
   <img *ngIf="showShiny" [src]="pokemon.default_variety.sprites?.artwork_shiny_url" [alt]="pokemon.name">
 
-  <!-- Conteneur Flex pour les boutons -->
-  <div class="absolute top-0 right-0 bottom-0 left-0 flex justify-between items-center p-4">
-
+  <!-- Conteneur Grid pour les boutons -->
+  <div class="absolute top-0 right-0 bottom-0 left-0 grid grid-cols-2 gap-4 p-4">
     <!-- Bouton pour afficher la version shiny -->
     <div class="absolute bottom-4 right-4">
       <button class="btn btn-circle btn-primary" (click)="toggleShiny()">
@@ -53,17 +51,9 @@
 <!-- Élément audio pour jouer le son -->
 <audio #pokemonCry [src]="pokemon.default_variety?.cry_url"></audio>
 
-<!-- Sprites du Pokémon (normaux et shiny) 
-<div class="flex items-center justify-center gap-3 mt-4">
-  <img [src]="pokemon.default_variety.sprites?.front_url" alt="front sprite" class="h-24 w-24 p-1 bg-neutral rounded-lg">
-  <img [src]="pokemon.default_variety.sprites?.front_shiny_url" alt="front sprite shiny" class="h-24 w-24 p-1 bg-neutral rounded-lg">
-  <img [src]="pokemon.default_variety.sprites?.back_url" alt="back sprite" class="h-24 w-24 p-1 bg-neutral rounded-lg">
-  <img [src]="pokemon.default_variety.sprites?.back_shiny_url" alt="back sprite shiny" class="h-24 w-24 p-1 bg-neutral rounded-lg">
-</div> -->
-
 <!-- Onglets pour les détails du Pokémon (grandes tailles d'écran) -->
 <div role="tablist" class="tabs tabs-bordered mt-6 mx-6"> <!-- Ajout de mx-6 -->
-  <div class="hidden lg:flex lg:space-x-6">
+  <div class="hidden lg:grid lg:grid-cols-3 lg:gap-6">
     <div>
       <app-pokemon-info [pokemon]="pokemon" [evolutions]="evolutions"></app-pokemon-info>
     </div>
