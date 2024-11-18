@@ -42,14 +42,12 @@
         </svg>
       </button>
     </div>
-
   </div>
-
+  
   <!-- Types du Pokémon -->
   <div class="absolute bottom-0 left-0 p-4 flex flex-row gap-2" style="border-radius: 0;">
     <img *ngFor="let type of pokemon.default_variety.types" [src]="type.sprite_url" [alt]="type.name" class="h-6">
   </div>
-
 </div>
 
 <!-- Élément audio pour jouer le son -->

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pokemon;
+use App\Models\TypeInteraction;
 use Illuminate\Http\Request;
 
 class PokemonController extends Controller
@@ -20,7 +21,7 @@ class PokemonController extends Controller
         $pokemon = $pokemon->load(['defaultVariety', 'defaultVariety.sprites', 'defaultVariety.types']);
 
         // Ajouter le sprite_url pour chaque type de la variété par défaut
-        $pokemon->defaultVariety->types->each(function($type) {
+        $pokemon->defaultVariety->types->each(function ($type) {
             // Assurez-vous d'ajouter l'URL du sprite dans la réponse de type
             $type->sprite_url = $type->sprite_url;
         });
@@ -35,8 +36,8 @@ class PokemonController extends Controller
         $varieties = $pokemon->varieties()->with(['sprites', 'types'])->get();
 
         // Ajouter l'URL du sprite pour chaque type dans les variétés
-        $varieties->each(function($variety) {
-            $variety->types->each(function($type) {
+        $varieties->each(function ($variety) {
+            $variety->types->each(function ($type) {
                 // Ajouter l'URL du sprite de chaque type
                 $type->sprite_url = $type->sprite_url;
             });
@@ -50,10 +51,10 @@ class PokemonController extends Controller
     {
         // Charger les variétés et les évolutions associées, y compris les sprites et les types
         return $pokemon->varieties()->with([
-            'evolutions.evolvesTo.sprites', 
+            'evolutions.evolvesTo.sprites',
             'evolutions.evolvesTo.types'
         ])->get();
-    }    
+    }
 
     public function showMoves(Pokemon $pokemon)
     {
@@ -92,6 +93,75 @@ class PokemonController extends Controller
 
         // Retourner toutes les capacités
         return $abilities;
+    }
+
+    public function showWeaknessesAndResistances(Pokemon $pokemon)
+    {
+        // Charger les types associés à la variété par défaut
+        $types = $pokemon->defaultVariety->types;
+
+        // Initialiser les données pour résistances, faiblesses et immunités
+        $weaknesses = [];
+        $resistances = [];
+        $immunities = [];
+
+        // Parcours des types de la variété
+        foreach ($types as $type) {
+            // Charger les interactions où le type est attaqué (en tant que 'to_type_id')
+            $interactions = TypeInteraction::where('to_type_id', $type->id)
+                ->with(['fromType', 'interactionState']) // Charger les types attaquants et l'état de l'interaction
+                ->get();
+
+            // Parcours des interactions
+            foreach ($interactions as $interaction) {
+                $fromType = $interaction->fromType;  // Type attaquant
+                $multiplier = $interaction->interactionState->multiplier; // Multiplicateur des interactions
+                $interactionState = $interaction->interactionState->name; // État de l'interaction depuis la BDD
+
+                // Assigner un état basé sur le multiplicateur (si nécessaire)
+                if ($multiplier > 1) {
+                    $interactionState = 'super_effective'; // Faiblesse
+                } elseif ($multiplier == 0) {
+                    $interactionState = 'immune'; // Immunité
+                } elseif ($multiplier < 1) {
+                    $interactionState = 'resistant'; // Résistance
+                } else {
+                    $interactionState = 'normal'; // Interaction normale
+                }
+
+                // Créer un tableau de données de l'interaction
+                $interactionData = [
+                    'id' => $fromType->id,
+                    'name' => $fromType->name,
+                    'sprite_url' => $fromType->sprite_url,
+                    'multiplier' => $multiplier,
+                    'interaction_state' => $interactionState,
+                ];
+
+                // Classer les interactions en fonction de l'état de l'interaction
+                switch ($interactionState) {
+                    case 'super_effective':
+                        $weaknesses[] = $interactionData; // Ajouter aux faiblesses
+                        break;
+                    case 'immune':
+                        $immunities[] = $interactionData; // Ajouter aux immunités
+                        break;
+                    case 'resistant':
+                        $resistances[] = $interactionData; // Ajouter aux résistances
+                        break;
+                    case 'normal':
+                        // Pas nécessaire de faire quelque chose pour l'état normal
+                        break;
+                }
+            }
+        }
+
+        // Retourner les faiblesses, résistances et immunités sous forme de tableaux
+        return [
+            'weaknesses' => $weaknesses,
+            'resistances' => $resistances,
+            'immunities' => $immunities,
+        ];
     }
 
     public function search(Request $request)

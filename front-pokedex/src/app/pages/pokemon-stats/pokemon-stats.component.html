@@ -35,4 +35,20 @@
             <progress class="custom-progress progress-darkblue" value="{{ pokemon.default_variety.base_stat_speed }}" max="255"></progress>
         </li>
     </ul>
+
+    <h2 *ngIf="weaknesses.length > 0">Faiblesses</h2>
+    <ul *ngIf="weaknesses.length > 0">
+        <li *ngFor="let weakness of weaknesses">
+            <img [src]="weakness.sprite_url" alt="{{ weakness.name }}" class="h-6 w-6 inline-block">
+            <p>{{ weakness.name }} - Multiplier: {{ weakness.multiplier }}</p>
+        </li>
+    </ul>
+
+    <h2 *ngIf="resistances.length > 0">Résistances</h2>
+    <ul *ngIf="resistances.length > 0">
+        <li *ngFor="let resistance of resistances">
+            <img [src]="resistance.sprite_url" alt="{{ resistance.name }}" class="h-6 w-6 inline-block">
+            <p>{{ resistance.name }} - Multiplier: {{ resistance.multiplier }}</p>
+        </li>
+    </ul>
 </div>

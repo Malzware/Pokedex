@@ -1,41 +1,69 @@
-.stats-container > h2:first-of-type {
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 10px;
+.stats-container>h2:first-of-type {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
-.stats-container > h1 {
-    text-align: center;
-    font-weight: bold;
-    text-decoration: underline;
-    margin-bottom: 20px;
+.stats-container>h1 {
+  text-align: center;
+  font-weight: bold;
+  text-decoration: underline;
+  margin-bottom: 20px;
 }
 
 /* Style général pour le bouton */
 .move-button {
-    display: flex; /* Utilisation de flexbox pour aligner le contenu */
-    align-items: center; /* Alignement vertical centré */
-    gap: 8px; /* Espacement entre l'image et le texte */
-    padding: 10px; /* Optionnel : ajuster l'espace dans le bouton */
-    border: none; /* Optionnel : supprimer la bordure */
-    background-color: transparent; /* Optionnel : mettre un fond transparent */
-    cursor: pointer; /* Curseur en forme de pointeur */
-  }
-  
-  /* Style spécifique pour les items */
-  .move-item {
-    display: flex; /* Flexbox à l'intérieur pour gérer l'image et le texte */
-    align-items: center; /* Centrage vertical des items */
-  }
-  
+  display: flex;
+  /* Utilisation de flexbox pour aligner le contenu */
+  align-items: center;
+  /* Alignement vertical centré */
+  gap: 8px;
+  /* Espacement entre l'image et le texte */
+  padding: 10px;
+  /* Optionnel : ajuster l'espace dans le bouton */
+  border: none;
+  /* Optionnel : supprimer la bordure */
+  background-color: transparent;
+  /* Optionnel : mettre un fond transparent */
+  cursor: pointer;
+  /* Curseur en forme de pointeur */
+}
+
+/* Style spécifique pour les items */
+.move-item {
+  display: flex;
+  /* Flexbox à l'intérieur pour gérer l'image et le texte */
+  align-items: center;
+  /* Centrage vertical des items */
+}
+
+.move-type-sprite {
+  width: 100%;
+  /* L'image prendra toute la largeur disponible */
+  max-width: 100px;
+  /* Largeur maximale définie */
+  height: auto;
+  /* Maintient les proportions de l'image */
+  margin-right: 8px;
+  /* Espacement optionnel */
+}
+
+/* Optionnel : ajustement pour des écrans plus petits */
+@media (max-width: 600px) {
   .move-type-sprite {
-    width: 150px; /* Taille de l'image */
-    margin-right: 8px; /* Espacement optionnel supplémentaire entre l'image et le texte */
+    max-width: 100px;
+    /* Réduit la taille maximale sur les petits écrans */
   }
-  
-  .move-text {
-    font-size: 16px; /* Taille du texte */
-    font-weight: 500; /* Optionnel : poids du texte */
-    color: #000;
-  }
-  
+}
+
+.move-text {
+  font-size: 16px;
+  /* Taille du texte */
+  font-weight: 500;
+  /* Optionnel : poids du texte */
+  color: #000;
+}
+
+.modal-box {
+  background-color: #D9D9D9;
+}

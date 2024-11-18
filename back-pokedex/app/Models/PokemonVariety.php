@@ -79,7 +79,7 @@ class PokemonVariety extends Model implements TranslatableContract
   }
 
   public function evolvesTo()
-{
+  {
     return $this->belongsTo(PokemonVariety::class, 'evolves_to_id');
-}
+  }
 }

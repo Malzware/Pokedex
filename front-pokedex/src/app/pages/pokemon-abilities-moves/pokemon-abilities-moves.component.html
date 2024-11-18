@@ -36,11 +36,6 @@
       <!-- Vérifier que 'selectedMove' et 'selectedMove.type' sont définis -->
       <h3 class="text-lg font-bold">{{ selectedMove?.name }}</h3>
       <p><strong>Type:</strong> {{ selectedMove?.type?.name }}</p>
-
-      <!-- Afficher le sprite du type uniquement si 'selectedMove.type' est défini -->
-      <img *ngIf="selectedMove?.type" [src]="selectedMove?.type?.sprite_url" alt="{{ selectedMove?.type?.name }} sprite"
-        class="move-type-sprite">
-
       <p><strong>Description:</strong> {{ selectedMove?.description }}</p>
       <p><strong>Puissance:</strong> {{ selectedMove?.power }}</p>
       <p><strong>Précision:</strong> {{ selectedMove?.accuracy }}%</p>

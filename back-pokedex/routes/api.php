@@ -17,6 +17,7 @@ Route::group(['prefix' => 'pokemon'], function () {
     Route::get('/{pokemon}/varieties/evolutions', [PokemonController::class, 'showEvolution']);
     Route::get('/{pokemon}/varieties/moves', [PokemonController::class, 'showMoves']);
     Route::get('/{pokemon}/varieties/abilities', [PokemonController::class, 'showAbilities']);
+    Route::get('/{pokemon}/varieties/interactions', [PokemonController::class, 'showWeaknessesAndResistances']);
 });
 
 Route::get('/login/google', [AuthController::class, 'redirectToProvider']);
