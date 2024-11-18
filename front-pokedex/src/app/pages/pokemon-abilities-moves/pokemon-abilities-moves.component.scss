@@ -10,3 +10,32 @@
     text-decoration: underline;
     margin-bottom: 20px;
 }
+
+/* Style général pour le bouton */
+.move-button {
+    display: flex; /* Utilisation de flexbox pour aligner le contenu */
+    align-items: center; /* Alignement vertical centré */
+    gap: 8px; /* Espacement entre l'image et le texte */
+    padding: 10px; /* Optionnel : ajuster l'espace dans le bouton */
+    border: none; /* Optionnel : supprimer la bordure */
+    background-color: transparent; /* Optionnel : mettre un fond transparent */
+    cursor: pointer; /* Curseur en forme de pointeur */
+  }
+  
+  /* Style spécifique pour les items */
+  .move-item {
+    display: flex; /* Flexbox à l'intérieur pour gérer l'image et le texte */
+    align-items: center; /* Centrage vertical des items */
+  }
+  
+  .move-type-sprite {
+    width: 150px; /* Taille de l'image */
+    margin-right: 8px; /* Espacement optionnel supplémentaire entre l'image et le texte */
+  }
+  
+  .move-text {
+    font-size: 16px; /* Taille du texte */
+    font-weight: 500; /* Optionnel : poids du texte */
+    color: #000;
+  }
+  

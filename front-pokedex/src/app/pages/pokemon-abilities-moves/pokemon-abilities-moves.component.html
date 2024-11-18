@@ -4,16 +4,24 @@
   <h1>Talents:</h1>
   <ul>
     <li *ngFor="let ability of abilities">
-      <h2>{{ ability.name }}</h2>
-      <p>{{ ability.effect }}</p>
+      <!-- Vérification explicite que 'ability' et 'ability.name' sont définis -->
+      <h2>{{ ability?.name }}</h2>
+      <p>{{ ability?.effect }}</p>
       <br>
     </li>
   </ul>
+
   <h2>Capacités de base :</h2>
   <ul>
     <li *ngFor="let move of moves">
-      <p>{{ move.type_id }} {{ move.name }}</p>
-      <button class="btn" (click)="openModal(move)">Voir Détails</button>
+      <button class="btn move-button" (click)="openModal(move)">
+        <div class="move-item">
+          <!-- Vérification si 'move.type' est défini avant d'afficher le sprite -->
+          <img *ngIf="move.type" [src]="move.type?.sprite_url" alt="{{ move.type?.name }} sprite"
+            class="move-type-sprite">
+          <span class="move-text">{{ move.name }}</span>
+        </div>
+      </button>      
     </li>
   </ul>
 </div>
@@ -25,14 +33,20 @@
       <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
     </form>
     <div *ngIf="selectedMove; else noMoveSelected">
-      <!-- Vérifier si selectedMove est défini avant de l'utiliser -->
+      <!-- Vérifier que 'selectedMove' et 'selectedMove.type' sont définis -->
       <h3 class="text-lg font-bold">{{ selectedMove?.name }}</h3>
-      <p><strong>Type:</strong> {{ selectedMove?.type_id }}</p>
+      <p><strong>Type:</strong> {{ selectedMove?.type?.name }}</p>
+
+      <!-- Afficher le sprite du type uniquement si 'selectedMove.type' est défini -->
+      <img *ngIf="selectedMove?.type" [src]="selectedMove?.type?.sprite_url" alt="{{ selectedMove?.type?.name }} sprite"
+        class="move-type-sprite">
+
       <p><strong>Description:</strong> {{ selectedMove?.description }}</p>
       <p><strong>Puissance:</strong> {{ selectedMove?.power }}</p>
       <p><strong>Précision:</strong> {{ selectedMove?.accuracy }}%</p>
       <p><strong>PP:</strong> {{ selectedMove?.pp }}</p>
-      <p><strong>Obtention au niveau:</strong> {{ selectedMove?.pivot?.level }}</p> <!-- Navigation sécurisée pour pivot -->
+      <p><strong>Obtention au niveau:</strong> {{ selectedMove?.pivot?.level }}</p>
+      <!-- Vérification sécurisée pour 'pivot' -->
     </div>
     <ng-template #noMoveSelected>
       <p>Aucun mouvement sélectionné.</p>

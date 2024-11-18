@@ -57,18 +57,23 @@ class PokemonController extends Controller
 
     public function showMoves(Pokemon $pokemon)
     {
-        // Charger les variétés de Pokémon et leurs mouvements
-        $varieties = $pokemon->varieties()->with(['moves'])->get();
+        // Charger les variétés de Pokémon avec leurs mouvements et les types associés
+        $varieties = $pokemon->varieties()->with(['moves.type'])->get();
         $moves = [];
 
-        // Extraire tous les mouvements uniques pour éviter les doublons
+        // Ajouter le sprite_url pour chaque mouvement et chaque type
         foreach ($varieties as $variety) {
             foreach ($variety->moves as $move) {
+                // Ajouter l'URL du sprite pour le type associé au mouvement
+                if ($move->type) {
+                    // Assurez-vous que le sprite_url du type est bien chargé
+                    $move->type->sprite_url = $move->type->sprite_url;
+                }
                 $moves[$move->id] = $move;
             }
         }
 
-        // Retourner la liste de mouvements
+        // Retourner la liste des mouvements avec leurs sprite_url et sprite_url des types associés
         return array_values($moves);
     }
 

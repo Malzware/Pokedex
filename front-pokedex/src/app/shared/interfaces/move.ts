@@ -17,4 +17,11 @@ export interface Move {
       game_version_id: number;  // Version du jeu
       level: number;  // Niveau d'apprentissage du mouvement
   };
+  type: {
+    id: number,
+    sprite_url: string,
+    created_at: string,
+    updated_at: string,
+    name: string,
+  };
 }
