@@ -19,6 +19,7 @@ export class PokemonDetailComponent {
   evolutions!: PokemonVariety[];
   selectedTab: number = 1; // Onglet par défaut
   @ViewChild('pokemonCry') pokemonCry!: ElementRef<HTMLAudioElement>;
+  showShiny: boolean = false; // Par défaut, afficher la version normale
 
   // Correspondance des couleurs pour chaque type
   private readonly TYPE_COLORS: { [key: string]: string } = {
@@ -115,5 +116,10 @@ export class PokemonDetailComponent {
     if (this.pokemonCry && this.pokemonCry.nativeElement) {
       this.pokemonCry.nativeElement.play();
     }
-  }  
+  }
+
+  // Méthode pour basculer entre la version normale et shiny
+  toggleShiny(): void {
+    this.showShiny = !this.showShiny; // Inverse l'état actuel de showShiny
+  }
 }
