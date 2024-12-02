@@ -51,4 +51,12 @@
             <p>{{ resistance.name }} - Multiplier: {{ resistance.multiplier }}</p>
         </li>
     </ul>
+
+    <h2 *ngIf="immunities.length > 0">Immunités</h2>
+    <ul *ngIf="immunities.length > 0">
+        <li *ngFor="let immunity of immunities">
+            <img [src]="immunity.sprite_url" alt="{{ immunity.name }}" class="h-6 w-6 inline-block">
+            <p>{{ immunity.name }} - Multiplier: {{ immunity.multiplier }}</p>
+        </li>
+    </ul>
 </div>
