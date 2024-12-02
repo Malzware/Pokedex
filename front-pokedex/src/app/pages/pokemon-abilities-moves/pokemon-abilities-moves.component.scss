@@ -67,3 +67,58 @@
 .modal-box {
   background-color: #D9D9D9;
 }
+
+// Style pour le bouton de dropdown
+.dropdown-btn {
+  border-radius: 0;             // Supprime les bords arrondis
+  padding: 10px;                // Ajoute un padding de 10px
+  background-color: #EBEBEB;    // Définit la couleur de fond en gris clair
+  text-align: center;           // Centre le texte dans le bouton
+  display: block;               // S'assure que le bouton prend toute la largeur disponible
+  cursor: pointer;             // Ajoute un curseur de pointeur pour indiquer que c'est cliquable
+}
+
+// Style pour le dropdown
+.dropdown {
+  position: relative;           // Position relative pour que le contenu du dropdown soit correctement positionné
+  display: inline-block;         // S'assure que le dropdown et son bouton sont alignés
+}
+
+// Style pour le contenu du dropdown
+.menu.dropdown-content {
+  background-color: #ffffff;    // Fond blanc pour le menu du dropdown
+  border-radius: 4px;           // Bordures arrondies pour le contenu du dropdown
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  // Ombre douce pour l'effet de survol
+  width: 200px;                 // Largeur du menu du dropdown
+  padding: 10px 0;              // Espacement interne du menu
+  position: absolute;           // Position absolue pour qu'il apparaisse sous le bouton
+  top: 100%;                    // Place le contenu directement sous le bouton
+  left: 0;
+  display: none;                // Masqué par défaut
+  z-index: 10;                  // S'assure que le dropdown apparaît au-dessus d'autres éléments
+}
+
+// Affichage du contenu du dropdown lorsqu'il est ouvert
+.dropdown[open] .menu.dropdown-content {
+  display: block;               // Affiche le menu lorsque l'élément details est ouvert
+}
+
+// Style pour les éléments de liste dans le dropdown
+.menu.dropdown-content li a {
+  display: block;               // S'assure que les liens occupent toute la largeur
+  padding: 8px 15px;            // Espacement autour des éléments de menu
+  color: #333;                  // Couleur du texte
+  text-decoration: none;        // Supprime la décoration de texte (soulignement)
+  cursor: pointer;             // Curseur de pointeur pour les éléments cliquables
+  transition: background-color 0.3s ease; // Ajoute une transition pour l'effet de survol
+}
+
+// Changement de couleur de fond au survol d'un élément du menu
+.menu.dropdown-content li a:hover {
+  background-color: #f0f0f0;    // Changement de couleur de fond au survol
+}
+
+// Assurez-vous que le dropdown ne soit pas coupé en dehors de son conteneur
+.stats-container {
+  position: relative;           // Positionnement relatif pour un contrôle global du conteneur
+}

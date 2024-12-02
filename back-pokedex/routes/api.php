@@ -3,11 +3,14 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PokemonController;
+use App\Http\Controllers\GameVersionController;
 use App\Http\Controllers\AuthController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+
+Route::get('/game-versions', [GameVersionController::class, 'index']);
 
 Route::group(['prefix' => 'pokemon'], function () {
     Route::get('/', [PokemonController::class, 'index']);

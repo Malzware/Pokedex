@@ -6,6 +6,7 @@ use App\Models\Pokemon;
 use App\Models\TypeInteraction;
 use Illuminate\Http\Request;
 
+
 class PokemonController extends Controller
 {
     public function index()
@@ -62,7 +63,7 @@ class PokemonController extends Controller
         $varieties = $pokemon->varieties()->with(['moves.type'])->get();
         $moves = [];
 
-        // Ajouter le sprite_url pour chaque mouvement et chaque type
+        // Ajouter tous les mouvements des variétés
         foreach ($varieties as $variety) {
             foreach ($variety->moves as $move) {
                 // Ajouter l'URL du sprite pour le type associé au mouvement
@@ -70,12 +71,12 @@ class PokemonController extends Controller
                     // Assurez-vous que le sprite_url du type est bien chargé
                     $move->type->sprite_url = $move->type->sprite_url;
                 }
-                $moves[$move->id] = $move;
+                $moves[] = $move;
             }
         }
 
-        // Retourner la liste des mouvements avec leurs sprite_url et sprite_url des types associés
-        return array_values($moves);
+        // Retourner tous les mouvements avec leurs sprite_url et sprite_url des types associés
+        return $moves;
     }
 
     public function showAbilities(Pokemon $pokemon)
@@ -118,7 +119,7 @@ class PokemonController extends Controller
                 $multiplier = $interaction->interactionState->multiplier; // Multiplicateur des interactions
                 $interactionState = $interaction->interactionState->name; // État de l'interaction depuis la BDD
 
-                // Assigner un état basé sur le multiplicateur (si nécessaire)
+                // Calculer l'état de l'interaction basé sur le multiplicateur
                 if ($multiplier > 1) {
                     $interactionState = 'super_effective'; // Faiblesse
                 } elseif ($multiplier == 0) {
@@ -141,13 +142,13 @@ class PokemonController extends Controller
                 // Classer les interactions en fonction de l'état de l'interaction
                 switch ($interactionState) {
                     case 'super_effective':
-                        $weaknesses[] = $interactionData; // Ajouter aux faiblesses
+                        $weaknesses[$fromType->id] = $interactionData; // Ajouter aux faiblesses (clé unique pour chaque type)
                         break;
                     case 'immune':
-                        $immunities[] = $interactionData; // Ajouter aux immunités
+                        $immunities[$fromType->id] = $interactionData; // Ajouter aux immunités
                         break;
                     case 'resistant':
-                        $resistances[] = $interactionData; // Ajouter aux résistances
+                        $resistances[$fromType->id] = $interactionData; // Ajouter aux résistances
                         break;
                     case 'normal':
                         // Pas nécessaire de faire quelque chose pour l'état normal
@@ -158,9 +159,9 @@ class PokemonController extends Controller
 
         // Retourner les faiblesses, résistances et immunités sous forme de tableaux
         return [
-            'weaknesses' => $weaknesses,
-            'resistances' => $resistances,
-            'immunities' => $immunities,
+            'weaknesses' => array_values($weaknesses), // Convertir les clés en indices numériques
+            'resistances' => array_values($resistances),
+            'immunities' => array_values($immunities),
         ];
     }
 
