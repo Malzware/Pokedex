@@ -4,6 +4,10 @@ import { Router } from "@angular/router";
 import { Subject } from "rxjs";
 import { environment } from "../../../environments/environment";
 import { User } from "../interfaces/user";
+import { FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+
 
 @Injectable({
   providedIn: 'root'

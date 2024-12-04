@@ -17,7 +17,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-
     Route::get('/game-versions', [GameVersionController::class, 'index']);
 
     Route::group(['prefix' => 'pokemon'], function () {
@@ -31,6 +30,3 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{pokemon}/varieties/interactions', [PokemonController::class, 'showWeaknessesAndResistances']);
     });
 });
-
-Route::get('/login/google', [AuthController::class, 'redirectToProvider']);
-Route::get('/auth/callback/google', [AuthController::class, 'handleProviderCallback']);
