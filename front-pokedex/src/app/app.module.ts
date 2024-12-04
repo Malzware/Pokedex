@@ -12,7 +12,8 @@ import { TranslocoRootModule } from './transloco-root.module';
 import { LangSelectorComponent } from './shared/layouts/lang-selector/lang-selector.component';
 import { PokemonInfoComponent } from './pages/pokemon-info/pokemon-info.component';
 import { PokemonStatsComponent } from './pages/pokemon-stats/pokemon-stats.component';
-import { PokemonAbilitiesMovesComponent } from './pages/pokemon-abilities-moves/pokemon-abilities-moves.component'; // Import du provider
+import { PokemonAbilitiesMovesComponent } from './pages/pokemon-abilities-moves/pokemon-abilities-moves.component';
+import { LoginComponent } from './pages/login/login.component'; // Import du provider
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { PokemonAbilitiesMovesComponent } from './pages/pokemon-abilities-moves/
     LangSelectorComponent,
     PokemonInfoComponent,
     PokemonStatsComponent,
-    PokemonAbilitiesMovesComponent
+    PokemonAbilitiesMovesComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
