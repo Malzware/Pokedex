@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ApiService } from '../../shared/services/api.service';
 import { Pokemon } from "../../shared/interfaces/pokemon";
-import { ApiService } from "../../shared/services/api.service";  // Importing the ApiService
 
 @Component({
   selector: 'app-pokemon-stats',
@@ -9,51 +9,26 @@ import { ApiService } from "../../shared/services/api.service";  // Importing th
 })
 export class PokemonStatsComponent implements OnInit {
   @Input() pokemon!: Pokemon;
-  weaknesses: { name: string, sprite_url: string, interaction_state: string, multiplier: number }[] = [];
-  resistances: { name: string, sprite_url: string, interaction_state: string, multiplier: number }[] = [];
-  immunities: { name: string, sprite_url: string, interaction_state: string, multiplier: number }[] = [];
+  weaknesses: { name: string, sprite_url: string, multiplier: number }[] = [];
+  resistances: { name: string, sprite_url: string, multiplier: number }[] = [];
+  immunities: { name: string, sprite_url: string, multiplier: number }[] = [];
 
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
-    this.loadWeaknessesAndResistances();
+    // Charger les faiblesses, résistances et immunités depuis l'API
+    this.loadInteractions();
   }
 
-  async loadWeaknessesAndResistances(): Promise<void> {
-    try {
-      // Making the API request to fetch weaknesses and resistances using requestApi
-      const data = await this.apiService.requestApi(`/pokemon/${this.pokemon.id}/interactions`, 'GET');
-      
-      this.weaknesses = data.weaknesses.map((weakness: any) => ({
-        ...weakness,
-        multiplier: this.getMultiplier(weakness.interaction_state)
-      }));
-
-      this.resistances = data.resistances.map((resistance: any) => ({
-        ...resistance,
-        multiplier: this.getMultiplier(resistance.interaction_state)
-      }));
-
-      this.immunities = data.immunities.map((immunity: any) => ({
-        ...immunity,
-        multiplier: this.getMultiplier(immunity.interaction_state)
-      }));
-
-    } catch (error) {
-      console.error('Error loading weaknesses and resistances', error);
-    }
-  }
-
-  getMultiplier(interactionState: string): number {
-    switch (interactionState) {
-      case 'super_effective':
-        return 2;
-      case 'resistant':
-        return 0.5;
-      case 'immune':
-        return 0;
-      default:
-        return 1;
-    }
+  loadInteractions(): void {
+    this.apiService.requestApi(`/pokemon/${this.pokemon.id}/varieties/interactions`, 'GET')
+      .then((data: any) => {
+        this.weaknesses = data.weaknesses;
+        this.resistances = data.resistances;
+        this.immunities = data.immunities;
+      })
+      .catch(error => {
+        console.error('Erreur lors du chargement des interactions:', error);
+      });
   }
 }
