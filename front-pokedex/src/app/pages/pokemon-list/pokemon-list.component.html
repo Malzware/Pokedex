@@ -1,8 +1,23 @@
-<h1>{{ 'pokemon_list' | transloco }}</h1> <!-- Change this line -->
-  <section class="p-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-    @for (pokemon of pokemonList?.data; track pokemon.id){
+<h1>{{ 'pokemon_list' | transloco }}</h1>
+
+<!-- Barre de recherche -->
+<div class="search-bar">
+  <input
+    type="text"
+    [(ngModel)]="searchQuery"
+    (input)="onSearch()"
+    placeholder="Rechercher un Pokémon"
+    class="search-input"
+  />
+</div>
+
+<!-- Liste des Pokémons -->
+<section class="p-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+  <ng-container *ngIf="pokemonList">
+    <div *ngFor="let pokemon of pokemonList?.data">
       <a [routerLink]="['/pokemon/'+pokemon.id]">
         <app-pokemon-card [pokemon]="pokemon"></app-pokemon-card>
       </a>
-    }
-  </section>
+    </div>
+  </ng-container>
+</section>
