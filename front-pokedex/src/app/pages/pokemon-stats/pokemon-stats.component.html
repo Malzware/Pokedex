@@ -42,26 +42,24 @@
         </li>
     </ul>
 
-    <h2 *ngIf="weaknesses.length > 0">Faiblesses</h2>
+    <h2>Résistances et faiblesses</h2>
     <ul *ngIf="weaknesses.length > 0">
         <li *ngFor="let weakness of weaknesses">
-            <img [src]="weakness.sprite_url" [alt]="weakness.name" class="h-6 w-6 inline-block">
+            <img [src]="weakness.sprite_url" [alt]="weakness.name" class="move-type-sprite">
             <p>{{ weakness.name }} - Multiplier: {{ weakness.multiplier }}</p>
         </li>
     </ul>
 
-    <h2 *ngIf="resistances.length > 0">Résistances</h2>
     <ul *ngIf="resistances.length > 0">
         <li *ngFor="let resistance of resistances">
-            <img [src]="resistance.sprite_url" [alt]="resistance.name" class="h-6 w-6 inline-block">
+            <img [src]="resistance.sprite_url" [alt]="resistance.name" class="move-type-sprite">
             <p>{{ resistance.name }} - Multiplier: {{ resistance.multiplier }}</p>
         </li>
     </ul>
 
-    <h2 *ngIf="immunities.length > 0">Immunités</h2>
     <ul *ngIf="immunities.length > 0">
         <li *ngFor="let immunity of immunities">
-            <img [src]="immunity.sprite_url" [alt]="immunity.name" class="h-6 w-6 inline-block">
+            <img [src]="immunity.sprite_url" [alt]="immunity.name" class="move-type-sprite">
             <p>{{ immunity.name }} - Multiplier: {{ immunity.multiplier }}</p>
         </li>
     </ul>

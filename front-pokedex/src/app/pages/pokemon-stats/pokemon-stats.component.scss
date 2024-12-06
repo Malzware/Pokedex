@@ -16,7 +16,7 @@
     font-weight: bold;
     text-decoration: underline;
     margin-bottom: 20px;
-}   
+}
 
 /* Liste des statistiques */
 .stats-list {
@@ -79,6 +79,32 @@
 
 .progress-darkblue::-webkit-progress-value {
     background-color: #274AC6;
+}
+
+/* Styles des éléments de faiblesses, résistances, immunités */
+.interaction-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.interaction-label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.interaction-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.move-type-sprite {
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
 }
 
 /* Firefox Styles */
