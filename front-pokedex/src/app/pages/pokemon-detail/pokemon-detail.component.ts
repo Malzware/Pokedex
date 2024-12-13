@@ -12,7 +12,6 @@ import { ActivatedRoute } from "@angular/router";
   styleUrls: ['./pokemon-detail.component.scss']
 })
 export class PokemonDetailComponent {
-
   pokemon!: Pokemon;
   abilities!: Ability[];
   moves!: Move[];
@@ -52,39 +51,34 @@ export class PokemonDetailComponent {
     this.route.params.subscribe(params => {
       const pokemonId = params['pokemon_id'];
       if (pokemonId) {
+        // Récupérer les données du Pokémon
         this.apiService.requestApi(`/pokemon/${pokemonId}`)
           .then((response: Pokemon) => {
             this.pokemon = response;
+            this.loadAdditionalData(pokemonId); // Charger les autres données après le Pokémon
           })
           .catch((error) => {
             console.error('Erreur lors de la récupération des détails du Pokémon', error);
           });
-
-        this.apiService.requestApi(`/pokemon/${pokemonId}/varieties/abilities`)
-          .then((response: Ability[]) => {
-            this.abilities = response;
-          })
-          .catch((error) => {
-            console.error('Erreur lors de la récupération des abilities du Pokémon', error);
-          });
-
-        this.apiService.requestApi(`/pokemon/${pokemonId}/varieties/moves`)
-          .then((response: Move[]) => {
-            this.moves = response;
-          })
-          .catch((error) => {
-            console.error('Erreur lors de la récupération des moves du Pokémon', error);
-          });
-
-        this.apiService.requestApi(`/pokemon/${pokemonId}/varieties/evolutions`)
-          .then((response: PokemonVariety[]) => {
-            this.evolutions = response;
-          })
-          .catch((error) => {
-            console.error('Erreur lors de la récupération des évolutions du Pokémon', error);
-          });
       }
     });
+  }
+
+  loadAdditionalData(pokemonId: string): void {
+    // Charger les abilities, moves et évolutions
+    Promise.all([
+      this.apiService.requestApi(`/pokemon/${pokemonId}/varieties/abilities`),
+      this.apiService.requestApi(`/pokemon/${pokemonId}/varieties/moves`),
+      this.apiService.requestApi(`/pokemon/${pokemonId}/varieties/evolutions`),
+    ])
+      .then(([abilities, moves, evolutions]) => {
+        this.abilities = abilities;
+        this.moves = moves;
+        this.evolutions = evolutions;
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la récupération des données supplémentaires du Pokémon', error);
+      });
   }
 
   // Fonction pour changer d'onglet

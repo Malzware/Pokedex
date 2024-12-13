@@ -43,24 +43,40 @@
     </ul>
 
     <h2>Résistances et faiblesses</h2>
-    <ul *ngIf="weaknesses.length > 0">
-        <li *ngFor="let weakness of weaknesses">
-            <img [src]="weakness.sprite_url" [alt]="weakness.name" class="move-type-sprite">
-            <p>{{ weakness.name }} - Multiplier: {{ weakness.multiplier }}</p>
-        </li>
-    </ul>
 
-    <ul *ngIf="resistances.length > 0">
-        <li *ngFor="let resistance of resistances">
-            <img [src]="resistance.sprite_url" [alt]="resistance.name" class="move-type-sprite">
-            <p>{{ resistance.name }} - Multiplier: {{ resistance.multiplier }}</p>
-        </li>
-    </ul>
+    <div *ngIf="weaknesses.length > 0">
+        <div *ngFor="let group of groupByMultiplier(weaknesses)">
+            <div class="interaction-group">
+                <p class="interaction-label">Faiblesses ({{ group.multiplier }}) :</p>
+                <div class="sprites-container">
+                    <img *ngFor="let weakness of group.items" [src]="weakness.sprite_url" [alt]="weakness.name"
+                        class="move-type-sprite">
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <ul *ngIf="immunities.length > 0">
-        <li *ngFor="let immunity of immunities">
-            <img [src]="immunity.sprite_url" [alt]="immunity.name" class="move-type-sprite">
-            <p>{{ immunity.name }} - Multiplier: {{ immunity.multiplier }}</p>
-        </li>
-    </ul>
+    <div *ngIf="immunities.length > 0">
+        <div *ngFor="let group of groupByMultiplier(immunities)">
+            <div class="interaction-group">
+                <p class="interaction-label">Immunités ({{ group.multiplier }}) :</p>
+                <div class="sprites-container">
+                    <img *ngFor="let immunity of group.items" [src]="immunity.sprite_url" [alt]="immunity.name"
+                        class="move-type-sprite">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="resistances.length > 0">
+        <div *ngFor="let group of groupByMultiplier(resistances)">
+            <div class="interaction-group">
+                <p class="interaction-label">Résistances ({{ group.multiplier }}) :</p>
+                <div class="sprites-container">
+                    <img *ngFor="let resistance of group.items" [src]="resistance.sprite_url" [alt]="resistance.name"
+                        class="move-type-sprite">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

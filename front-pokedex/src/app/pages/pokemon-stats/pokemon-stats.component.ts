@@ -16,8 +16,9 @@ export class PokemonStatsComponent implements OnInit {
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
-    // Charger les faiblesses, résistances et immunités depuis l'API
-    this.loadInteractions();
+    if (this.pokemon) {
+      this.loadInteractions(); // Charger les interactions uniquement si le Pokémon est disponible
+    }
   }
 
   loadInteractions(): void {
@@ -30,5 +31,19 @@ export class PokemonStatsComponent implements OnInit {
       .catch(error => {
         console.error('Erreur lors du chargement des interactions:', error);
       });
+  }
+
+  // Fonction de regroupement par multiplicateur
+  groupByMultiplier(array: { name: string; sprite_url: string; multiplier: number }[]) {
+    const grouped = array.reduce((acc, item) => {
+      const existingGroup = acc.find(group => group.multiplier === item.multiplier);
+      if (existingGroup) {
+        existingGroup.items.push(item);
+      } else {
+        acc.push({ multiplier: item.multiplier, items: [item] });
+      }
+      return acc;
+    }, [] as { multiplier: number; items: { name: string; sprite_url: string; multiplier: number }[] }[]);
+    return grouped;
   }
 }

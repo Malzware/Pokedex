@@ -23,8 +23,13 @@ export class PokemonAbilitiesMovesComponent implements OnInit {
   ngOnInit(): void {
     // Récupérer toutes les versions de jeu au moment de l'initialisation du composant
     this.apiService.requestApi('/game-versions', 'GET').then(response => {
-      // Assigner les versions du jeu reçues dans la variable gameVersions
-      this.gameVersions = response; // La réponse contient toutes les versions
+      // Filtrer les versions du jeu où il y a des mouvements pour ce Pokémon
+      const versionsWithMoves = response.filter((version: { id: number, name: string }) =>
+        this.moves.some(move => move.pivot.game_version_id === version.id)
+      );
+      // Assigner les versions filtrées à la variable gameVersions
+      this.gameVersions = versionsWithMoves;
+
       if (this.gameVersions.length > 0) {
         this.selectedVersion = this.gameVersions[0].id;
         this.filterMovesByVersion(this.selectedVersion);  // Appliquer le filtre pour la version par défaut

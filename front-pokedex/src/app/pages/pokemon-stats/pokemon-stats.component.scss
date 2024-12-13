@@ -101,10 +101,16 @@
     gap: 5px;
 }
 
+.sprites-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
 .move-type-sprite {
-    width: 30px;
-    height: 30px;
-    margin-right: 8px;
+    width: 100%;
+    max-width: 100px;
+    height: auto;
 }
 
 /* Firefox Styles */

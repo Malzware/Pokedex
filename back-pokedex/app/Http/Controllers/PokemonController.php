@@ -50,12 +50,33 @@ class PokemonController extends Controller
 
     public function showEvolution(Pokemon $pokemon)
     {
-        // Charger les variétés et les évolutions associées, y compris les sprites et les types
         return $pokemon->varieties()->with([
-            'evolutions.evolvesTo.sprites',
-            'evolutions.evolvesTo.types'
+            // Charger les évolutions récursives
+            'evolutions.evolvesTo' => function ($query) {
+                $query->with(['sprites', 'types', 'evolvesTo' => function ($query) {
+                    $query->with(['sprites', 'types']); // Charger récursivement
+                }]);
+            },
+            'sprites',
+            'types'
         ])->get();
     }
+    
+
+    public function showOldEvolution(Pokemon $pokemon)
+    {
+        return $pokemon->varieties()->with([
+            // Charger les évolutions passées récursivement
+            'evolutionsFrom.pokemonVariety' => function ($query) {
+                $query->with(['sprites', 'types', 'evolutionsFrom.pokemonVariety' => function ($query) {
+                    $query->with(['sprites', 'types']); // Charger récursivement
+                }]);
+            },
+            'sprites',
+            'types'
+        ])->get();
+    }
+    
 
     public function showMoves(Pokemon $pokemon)
     {
