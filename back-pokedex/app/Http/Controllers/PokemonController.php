@@ -105,17 +105,20 @@ class PokemonController extends Controller
         // Charger les variétés et les capacités associées
         $varieties = $pokemon->varieties()->with('abilities')->get();
         $abilities = [];
-
+    
         // Ajouter toutes les capacités des variétés
         foreach ($varieties as $variety) {
             foreach ($variety->abilities as $ability) {
                 $abilities[] = $ability;
             }
         }
-
-        // Retourner toutes les capacités
-        return $abilities;
-    }
+    
+        // Supprimer les doublons en fonction de l'id de la capacité
+        $uniqueAbilities = collect($abilities)->unique('id')->values();
+    
+        // Retourner les capacités uniques
+        return $uniqueAbilities;
+    }    
 
     public function showWeaknessesAndResistances(Pokemon $pokemon)
     {
