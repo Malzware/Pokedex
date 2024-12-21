@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core'; // HostListener pour détecter les événements de scroll
 import { Router } from '@angular/router'; // Importation du Router
 import { ApiService } from "../../shared/services/api.service";
 import { Paginate } from "../../shared/interfaces/paginate";
@@ -13,10 +13,11 @@ export class PokemonListComponent {
 
   pokemonList?: Paginate<Pokemon>;
   searchQuery: string = '';  // Variable pour la recherche
+  isLoading: boolean = false; // Indique si une requête est en cours
 
   constructor(
     public apiService: ApiService,
-    private router: Router, // Injection du Router
+    private router: Router // Injection du Router
   ) {
     console.log('Chargement initial des Pokémons');
     this.loadNextPokemonPage(); // Charger les Pokémons au départ
@@ -24,27 +25,33 @@ export class PokemonListComponent {
 
   // Fonction pour charger la page suivante des Pokémons
   loadNextPokemonPage() {
-    let page = 1;
-    console.log(`Chargement de la page ${page} des Pokémons`);  // Log du numéro de la page initiale
-    if (this.pokemonList) {
-      page = this.pokemonList.current_page + 1;
-      console.log(`Page actuelle : ${this.pokemonList.current_page}, Chargement de la page : ${page}`);
+    if (this.isLoading) {
+      return; // Ne pas lancer plusieurs requêtes simultanément
     }
 
-    if (!this.pokemonList || this.pokemonList.last_page <= page) {
-      console.log('Appel à l\'API pour charger des Pokémons');
+    let page = 1;
+    if (this.pokemonList) {
+      page = this.pokemonList.current_page + 1;
+    }
+
+    if (!this.pokemonList || this.pokemonList.last_page >= page) {
+      this.isLoading = true; // Bloquer les requêtes en cours
+      console.log(`Chargement de la page ${page} des Pokémons`);
       this.apiService.requestApi('/pokemon', 'GET', { page: page }).then((pokemons: Paginate<Pokemon>) => {
         console.log('Réponse de l\'API pour la page suivante', pokemons);
         if (!this.pokemonList) {
-          this.pokemonList = pokemons;
+          this.pokemonList = pokemons; // Initialisation
         } else {
+          // Concaténation si on charge une nouvelle page
           let datas = this.pokemonList.data.concat(pokemons.data);
           this.pokemonList = { ...pokemons, data: datas };
         }
         console.log('pokemonList après mise à jour', this.pokemonList);
+        this.isLoading = false; // Débloquer les requêtes
+      }).catch(error => {
+        console.error('Erreur lors du chargement des Pokémons :', error);
+        this.isLoading = false; // Débloquer même en cas d'erreur
       });
-    } else {
-      console.log('Pas besoin de charger une nouvelle page, déjà à la dernière page.');
     }
   }
 
@@ -54,7 +61,6 @@ export class PokemonListComponent {
 
     if (this.searchQuery.length > 0) {
       console.log('Terme de recherche présent, appel à l\'API');
-      // Si un terme de recherche est présent
       this.apiService.requestApi('/pokemon/search', 'GET', { query: this.searchQuery }).then((result: Pokemon[]) => {
         console.log('Résultats de la recherche : ', result);
         this.pokemonList = {
@@ -62,24 +68,43 @@ export class PokemonListComponent {
           current_page: 1,  // Toujours sur la première page pour la recherche
           last_page: 1,     // Une seule page pour les résultats de la recherche
           per_page: result.length, // Nombre d'éléments retournés
-          first_page_url: '/pokemon?page=1', // URL de la première page
-          from: 1,  // Le premier élément de la page
-          last_page_url: '/pokemon?page=1', // URL de la dernière page
-          path: '/pokemon', // Le chemin de l'API
-          to: result.length, // Le dernier élément de la page
-          total: result.length // Nombre total d'éléments trouvés
+          first_page_url: '/pokemon?page=1',
+          from: 1,
+          last_page_url: '/pokemon?page=1',
+          path: '/pokemon',
+          to: result.length,
+          total: result.length
         };
         console.log('pokemonList après recherche', this.pokemonList);
       });
     } else {
-      console.log('Termes de recherche vides, redirection vers la page racine');
-      // Si la recherche est vide, redirige vers la page racine et recharge la liste des Pokémon depuis la page 1
-      this.router.navigate(['/']).then(() => {
-        console.log('Redirection vers la page racine terminée, rechargement des Pokémons');
-        // Une fois la navigation effectuée, forcer le chargement de la page 1
-        this.pokemonList = undefined;  // Réinitialiser la liste des Pokémon pour forcer le rechargement
-        this.loadNextPokemonPage();  // Charger à partir de la première page
-      });
+      console.log('Termes de recherche vides, rechargement des données initiales');
+      this.resetPokemonList();
     }
   }
+
+  // Réinitialisation complète de la liste des Pokémon
+  resetPokemonList() {
+    console.log('Réinitialisation complète de la liste Pokémon');
+    this.apiService.requestApi('/pokemon', 'GET', { page: 1 }).then((pokemons: Paginate<Pokemon>) => {
+      console.log('Réponse de l\'API pour rechargement des données initiales', pokemons);
+      this.pokemonList = pokemons;
+      console.log('pokemonList après réinitialisation', this.pokemonList);
+    });
+  }
+
+  // Détecter le défilement et charger plus de Pokémon
+  @HostListener('window:scroll', [])
+  onScroll() {
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const threshold = document.body.offsetHeight - 100; // Charger à 100px avant le bas de page
+    if (scrollPosition >= threshold) {
+      this.loadNextPokemonPage();
+    }
+  }
+
+  goToFilterPage() {
+    console.log('Redirection vers la page de filtres');
+    this.router.navigate(['/filters']); // Redirige vers la page des filtres
+  }  
 }

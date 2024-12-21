@@ -6,7 +6,18 @@
     type="text"
     [(ngModel)]="searchQuery"
     (input)="onSearch()"
-    placeholder="Rechercher un Pokémon"
+    placeholder="nom ou numéro du pokémon"
+    class="search-input"
+  />
+</div>
+
+<!-- Barre de recherche -->
+<div class="filter-bar">
+  <input
+    type="text"
+    [(ngModel)]="searchQuery"
+    (input)="onSearch()"
+    placeholder="Filtrer"
     class="search-input"
   />
 </div>
