@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pokemon;
+use App\Models\PokemonEvolution;
 use App\Models\TypeInteraction;
 use Illuminate\Http\Request;
 
@@ -50,33 +51,48 @@ class PokemonController extends Controller
 
     public function showEvolution(Pokemon $pokemon)
     {
-        return $pokemon->varieties()->with([
-            // Charger les évolutions récursives
-            'evolutions.evolvesTo' => function ($query) {
-                $query->with(['sprites', 'types', 'evolvesTo' => function ($query) {
-                    $query->with(['sprites', 'types']); // Charger récursivement
-                }]);
-            },
-            'sprites',
-            'types'
-        ])->get();
-    }
-    
+        // Récupérer les évolutions suivantes (Pokémons auxquels ce Pokémon évolue)
+        $nextEvolutions = PokemonEvolution::with(['evolvesTo.sprites'])
+            ->where('pokemon_variety_id', $pokemon->id) // Pokemon évoluant vers un autre
+            ->get()
+            ->map(function ($evolution) {
+                // Récupérer l'évolution suivante
+                $nextPokemon = $evolution->evolvesTo;
+                // Trouver l'évolution suivante de ce Pokémon (next evolution)
+                $nextEvolution = PokemonEvolution::with(['evolvesTo.sprites'])
+                    ->where('pokemon_variety_id', $nextPokemon->id)
+                    ->first();
 
-    public function showOldEvolution(Pokemon $pokemon)
-    {
-        return $pokemon->varieties()->with([
-            // Charger les évolutions passées récursivement
-            'evolutionsFrom.pokemonVariety' => function ($query) {
-                $query->with(['sprites', 'types', 'evolutionsFrom.pokemonVariety' => function ($query) {
-                    $query->with(['sprites', 'types']); // Charger récursivement
-                }]);
-            },
-            'sprites',
-            'types'
-        ])->get();
+                // Ajout de l'évolution suivante du Pokémon suivant
+                $nextPokemon->nextEvolution = $nextEvolution ? $nextEvolution->evolvesTo : null;
+
+                return $nextPokemon;
+            });
+
+        // Récupérer les évolutions précédentes (Pokémons qui évoluent en ce Pokémon)
+        $previousEvolutions = PokemonEvolution::with(['pokemonVariety.sprites'])
+            ->where('evolves_to_id', $pokemon->id) // Pokémons évoluant en ce Pokémon
+            ->get()
+            ->map(function ($evolution) {
+                // Récupérer le Pokémon précédent
+                $previousPokemon = $evolution->pokemonVariety;
+                // Trouver l'évolution précédente de ce Pokémon (previous evolution)
+                $previousEvolution = PokemonEvolution::with(['pokemonVariety.sprites'])
+                    ->where('evolves_to_id', $previousPokemon->id)
+                    ->first();
+
+                // Ajout de l'évolution précédente du Pokémon précédent
+                $previousPokemon->previousEvolution = $previousEvolution ? $previousEvolution->pokemonVariety : null;
+
+                return $previousPokemon;
+            });
+
+        // Retourner à la fois les évolutions précédentes et suivantes
+        return response()->json([
+            'previous_evolutions' => $previousEvolutions,
+            'next_evolutions' => $nextEvolutions,
+        ]);
     }
-    
 
     public function showMoves(Pokemon $pokemon)
     {

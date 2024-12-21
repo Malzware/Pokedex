@@ -1,13 +1,13 @@
 import { Ability } from "./ability";
 import { Move } from "./move";
 import { Evolution } from "./evolution";
-import {Type} from "./type"; // <- here
+import { Type } from "./type"; // <- ici
 
 export interface PokemonVariety {
-  types?: Type[]; // <- here
+  types?: Type[];   // Types du Pokémon
   abilities: Ability[];
   moves: Move[];
-  evolutions: Evolution[];
+  evolutions: Evolution[];   // Evolutions de la variété de Pokémon (précédentes et suivantes)
   base_experience?: number;
   base_stat_attack: number;
   base_stat_defense: number;
@@ -34,7 +34,7 @@ export interface PokemonVariety {
     front_shiny_female_url?: string;
     front_shiny_url?: string;
     front_url?: string;
-  },
+  };
   updated_at: string;
   weight: number;
 }
