@@ -2,41 +2,28 @@
 .search-bar {
     display: flex;
     justify-content: center;
-    /* Centre l'élément horizontalement */
     margin-bottom: 20px;
-    /* Marge inférieure pour espacer le reste du contenu */
 }
 
 /* Champ de recherche */
 .search-input {
     width: 100%;
-    /* Utilise toute la largeur disponible */
     max-width: 500px;
-    /* Limite la largeur maximale de l'input */
     height: 58px;
     padding: 10px 15px;
-    /* Espacement interne */
     font-size: 16px;
-    /* Taille de la police */
     border-radius: 25px;
-    /* Bords arrondis */
     outline: none;
-    /* Supprime la bordure bleue de focus par défaut */
     box-sizing: border-box;
-    /* Assure que les bordures et padding sont pris en compte dans la largeur */
     background-color: #D9D9D9;
-    /* Fond gris clair */
     color: #333;
-    /* Couleur du texte */
 }
 
 /* Barre de filtre transformée en bouton */
 .filter-bar {
     display: flex;
     justify-content: center;
-    /* Centre le bouton horizontalement */
     margin-top: 20px;
-    /* Marge pour espacer de la barre de recherche */
     margin-bottom: 40px;
 }
 
@@ -44,54 +31,35 @@
 .search-button {
     width: 100%;
     max-width: 500px;
-    /* Limite la largeur maximale de l'input */
     height: 29px;
     font-size: 16px;
-    /* Taille de la police */
     background-color: #D9D9D9;
-    /* Fond gris clair */
     color: #626262;
-    /* Couleur du texte */
     border-radius: 25px;
-    /* Bordure arrondie */
     cursor: pointer;
-    /* Curseur en forme de main pour indiquer que c'est cliquable */
     transition: all 0.3s ease;
-    /* Animation douce sur le hover */
 }
 
 /* Section contenant les cartes */
 .section-cards {
     display: grid;
-    /* Utilisation du CSS Grid */
     grid-template-columns: repeat(3, 1fr);
-    /* Crée 3 colonnes égales */
     gap: 16px;
-    /* Espace entre les cartes */
 }
 
 /* Carte Pokémon */
 .pokemon-card {
     width: 100%;
-    /* Utilise toute la largeur de la cellule de la grille */
     max-width: 315px;
-    /* Limite la largeur à 315px */
     margin: 0 auto;
-    /* Centrer la carte horizontalement */
     border-radius: 20px;
     background-color: #f4f4f4;
-    /* Couleur de fond */
     transition: transform 0.3s ease-in-out;
-    /* Effet de transition sur hover */
     position: relative;
-    /* Permet de positionner les éléments enfants de manière absolue */
     overflow: hidden;
-    /* Empêche les éléments de dépasser de la carte */
     height: 210px;
-    /* Hauteur de la carte */
     display: flex;
     flex-direction: column;
-    /* Disposition verticale des éléments dans la carte */
 }
 
 /* Contenu de la carte Pokémon */
@@ -99,9 +67,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /* Espace entre l'image et le texte */
     height: 100%;
-    /* Prend toute la hauteur de la carte */
 }
 
 /* Image Pokémon */
@@ -115,60 +81,112 @@
     text-align: center;
     color: #333;
     flex-grow: 1;
-    /* Permet à l'info de se redimensionner et occuper l'espace restant */
 }
 
 /* Conteneur pour le nom du Pokémon et le carré blanc */
 .pokemon-name-box {
     width: 100%;
-    /* Utilise toute la largeur de l'élément parent */
     height: 40px;
-    /* Hauteur du carré blanc pour le nom */
     background-color: rgb(239, 239, 239);
-    /* Fond gris */
     display: flex;
     align-items: center;
-    /* Centre le texte verticalement */
     justify-content: flex-start;
-    /* Centre le texte horizontalement */
-    padding-right: 10px; /* Espace de 10px entre le nom et le bord droit */
+    padding-right: 10px;
 }
 
 /* Conteneur pour l'ID du Pokémon en bas à droite */
 .pokemon-id-box {
     position: absolute;
-    /* Positionner absolument par rapport à la carte */
     right: 0px;
-    /* Espace depuis la droite */
     bottom: 20px;
-    /* Espace depuis le bas */
     border-radius: 20px;
     width: 120px;
-    /* Largeur fixe pour l'ID */
     height: 60px;
-    /* Ajuster la hauteur de l'ID */
     background-color: rgb(239, 239, 239);
-    /* Fond gris */
     display: flex;
     align-items: flex-end;
-    /* Aligner le texte au bas */
     justify-content: center;
-    /* Centre l'ID du Pokémon */
 }
 
 /* Contenu de l'ID du Pokémon */
 .pokemon-id-box p {
     margin: 0;
     font-size: 14px;
-    /* Ajuster la taille du texte si nécessaire */
 }
 
 /* Nom du Pokémon */
 .pokemon-name-box h3 {
     margin: 0;
-    /* Enlever la marge par défaut du h3 */
     font-size: 18px;
-    /* Taille du texte */
     color: #333;
-    /* Couleur du texte */
+}
+
+/* Responsivité */
+@media (max-width: 1200px) {
+    .section-cards {
+        grid-template-columns: repeat(2, 1fr); /* 2 colonnes pour les écrans moyens */
+    }
+
+    .pokemon-card {
+        max-width: 280px; /* Réduit la largeur des cartes */
+    }
+
+    .search-input {
+        max-width: 450px; /* Ajuste la largeur de l'input */
+    }
+
+    .search-button {
+        max-width: 450px; /* Ajuste la largeur du bouton */
+    }
+}
+
+@media (max-width: 768px) {
+    .section-cards {
+        grid-template-columns: 1fr; /* 1 colonne pour les petits écrans */
+    }
+
+    .pokemon-card {
+        max-width: 315px; /* Les cartes utilisent 90% de la largeur de leur conteneur */
+    }
+
+    .pokemon-name-box h3 {
+        font-size: 16px; /* Réduit la taille du texte */
+    }
+
+    .pokemon-id-box {
+        width: 100px; /* Réduit la largeur de l'ID */
+        height: 50px; /* Réduit la hauteur de l'ID */
+    }
+
+    .search-input {
+        max-width: 100%; /* S'adapte à la largeur disponible */
+    }
+
+    .search-button {
+        max-width: 100%; /* S'adapte à la largeur disponible */
+    }
+}
+
+@media (max-width: 480px) {
+    .search-input {
+        font-size: 14px; /* Réduit la taille de la police sur petits écrans */
+        padding: 8px 12px; /* Ajuste le padding */
+    }
+
+    .search-button {
+        font-size: 14px; /* Réduit la taille de la police sur petits écrans */
+    }
+
+    .pokemon-card {
+        height: auto; /* Permet à la carte de s'adapter à son contenu */
+    }
+
+    .pokemon-name-box {
+        height: 35px; /* Réduit la hauteur du carré pour le nom */
+    }
+
+    .pokemon-id-box {
+        width: 90px; /* Réduit la largeur de l'ID */
+        height: 45px; /* Réduit la hauteur de l'ID */
+    }
 }
