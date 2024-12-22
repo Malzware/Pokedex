@@ -14,6 +14,7 @@ import { PokemonInfoComponent } from './pages/pokemon-info/pokemon-info.componen
 import { PokemonStatsComponent } from './pages/pokemon-stats/pokemon-stats.component';
 import { PokemonAbilitiesMovesComponent } from './pages/pokemon-abilities-moves/pokemon-abilities-moves.component';
 import { LoginComponent } from './pages/login/login.component'; // Import du provider
+import { ProfilComponent } from './pages/profil/profil.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { LoginComponent } from './pages/login/login.component'; // Import du pro
     PokemonInfoComponent,
     PokemonStatsComponent,
     PokemonAbilitiesMovesComponent,
-    LoginComponent
+    LoginComponent,
+    ProfilComponent
   ],
   imports: [
     BrowserModule,

@@ -18,6 +18,7 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
     Route::get('/game-versions', [GameVersionController::class, 'index']);
+    Route::get('/pokemon/favorites', [PokemonController::class, 'showFavorites']);
     Route::group(['prefix' => 'pokemon'], function () {
         Route::get('/', [PokemonController::class, 'index']);
         Route::get('/search', [PokemonController::class, 'search']);
@@ -29,6 +30,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{pokemon}/varieties/abilities', [PokemonController::class, 'showAbilities']);
         Route::get('/{pokemon}/varieties/interactions', [PokemonController::class, 'showWeaknessesAndResistances']);
         Route::post('/{pokemon}/varieties/pokemon-user', [PokemonController::class, 'store']);
-        Route::get('/favorites', [PokemonController::class, 'showFavorites']);
-    });    
+    }); 
 });
+
+
