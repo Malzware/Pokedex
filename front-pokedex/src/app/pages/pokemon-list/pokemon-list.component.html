@@ -1,13 +1,17 @@
-<h1>{{ 'pokemon_list' | transloco }}</h1>
+<!-- <h1>{{ 'pokemon_list' | transloco }}</h1> -->
 
-<!-- Bouton pour rediriger vers la page Profil -->
-<div class="mb-4">
+<div class="mb-4 flex justify-end">
   <button 
-    class="bg-blue-500 text-white py-3 px-8 rounded-full text-lg font-semibold hover:bg-blue-600 transition"
     [routerLink]="['/profil']">
-    Aller à mon Profil
+    
+    <!-- Image à l'intérieur du bouton -->
+    <img 
+      src="assets/image/profilButton.png" 
+      alt="Logo de la page Profil" 
+      class="inline-block mr-20 mt-10" />
   </button>
 </div>
+
 
 <!-- Barre de recherche -->
 <div class="search-bar">

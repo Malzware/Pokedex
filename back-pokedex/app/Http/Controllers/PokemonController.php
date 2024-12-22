@@ -216,11 +216,13 @@ class PokemonController extends Controller
             return response()->json(['message' => 'User not authenticated'], 401);
         }
 
-        // Récupérer les pokémons favoris de l'utilisateur
-        $favorites = $user->pokemon; // Récupère tous les pokémons associés à cet utilisateur
+        // Récupérer les pokémons favoris de l'utilisateur avec leurs variétés, sprites et types
+        $favorites = $user->pokemon()->with(['defaultVariety', 'defaultVariety.sprites', 'defaultVariety.types'])->get();
 
+        // Retourner les détails complets des pokémons favoris
         return response()->json($favorites);
     }
+
 
     public function search(Request $request)
     {

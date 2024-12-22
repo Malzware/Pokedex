@@ -1,33 +1,48 @@
+<!-- Flèche et ID du Pokémon (ajouté ici) -->
+<div class="flex items-center justify-between">
+  <!-- Conteneur gauche : flèche et ID -->
+  <div class="flex items-center flex-none" style="margin-left: 20px; margin-top: 20px; padding-right: 40px;">
+    <a [routerLink]="['/']" class="flex items-center" style="margin-right: 8px;">
+      ←
+    </a>
+  </div>
+</div>
+
 <div class="profil-container">
   <!-- Informations de l'utilisateur -->
   <div class="user-info">
-    <h1>Bienvenue, {{ user?.name }}</h1>
-    <button (click)="logout()">Déconnexion</button>
+    <img *ngIf="user?.profil_picture_url" [src]="user?.profil_picture_url" alt="Image de profil" />
+    <h1>{{ user?.name }}</h1>
+    <!-- <button (click)="logout()">Déconnexion</button> -->
+    <hr class="title-divider">
   </div>
 
   <!-- Liste des Pokémons favoris -->
   <div class="favorite-pokemons">
-    <h2>Pokémons Favoris</h2>
+    <h2>Liste des pokémons capturés :</h2>
 
     <!-- Vérification si des Pokémon favoris existent -->
     <div *ngIf="favoritePokemons?.length; else noFavorites">
       <ul>
-        <li *ngFor="let pokemon of favoritePokemons">
-          <h3>{{ pokemon.name }} ({{ pokemon.category }})</h3>
+        <li *ngFor="let pokemon of favoritePokemons" class="pokemon-container">
+          <h3>{{ pokemon.name }}</h3>
+
+          <!-- Affichage des types avec leurs sprites -->
+          <div *ngIf="pokemon.default_variety?.types?.length">
+            <div class="sprites-container">
+              <span *ngFor="let type of pokemon.default_variety.types">
+                <!-- Affichage du sprite du type -->
+                <img [src]="type.sprite_url" [alt]="type.name" title="{{ type.name }}" class="move-type-sprite" />
+              </span>
+            </div>
+          </div>
         </li>
       </ul>
     </div>
-    
+
     <!-- Template de secours si aucun Pokémon favori -->
     <ng-template #noFavorites>
       <p>Aucun Pokémon favori trouvé.</p>
     </ng-template>
-
-  </div>
-
-  <!-- Réponse brute de l'API (pour débogage) -->
-  <div class="api-response">
-    <h2>Réponse API</h2>
-    <pre>{{ apiResponse }}</pre>
   </div>
 </div>

@@ -1,0 +1,52 @@
+/* Style pour l'image de profil */
+img[alt="Image de profil"] {
+    width: 100px;           /* Largeur de l'image */
+    height: 100px;          /* Hauteur de l'image */
+    border-radius: 50%;     /* Pour arrondir l'image et en faire un cercle */
+    object-fit: cover;      /* Pour couvrir l'espace sans déformer l'image */
+    display: block;         /* Assurez-vous que l'image est un élément de type block */
+    margin: 0 auto;         /* Centrer horizontalement */
+    margin-bottom: 20px;
+}
+
+/* Assurez-vous que le conteneur de l'image est centré */
+.profil-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;     /* Centrer horizontalement */
+    min-height: 100vh;       /* Utiliser toute la hauteur de la fenêtre */
+    text-align: center;      /* Centrer le texte */
+    padding: 20px;
+}
+
+.title-divider{
+    margin-top: 20px;
+    width: 100%;
+}
+
+/* Centrer le contenu de chaque élément dans la liste */
+li {
+    display: flex;
+    align-items: center;  /* Centrer verticalement le contenu de chaque ligne */
+    justify-content: center;  /* Centrer horizontalement */
+    margin-top: 10px;
+}
+
+.pokemon-container{
+    display: flex;
+    gap: 15px; /* Espacement entre les sprites horizontalement */
+    align-items: center; /* Centrer verticalement les sprites */
+    justify-content: center; /* Centrer horizontalement les sprites */
+}
+
+.sprites-container {
+    display: flex;
+    gap: 10px; /* Espacement entre les sprites horizontalement */
+    align-items: center; /* Centrer verticalement les sprites */
+    justify-content: center; /* Centrer horizontalement les sprites */
+}
+
+.move-type-sprite {
+    width: 100px;
+    object-fit: contain;
+}

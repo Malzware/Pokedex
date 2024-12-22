@@ -56,11 +56,11 @@ export class ProfilComponent implements OnInit {
   
 
   // Méthode de déconnexion
-  async logout() {
+  /* async logout() {
     console.log('Déconnexion en cours...');
     await this.apiService.logout();
     this.router.navigate(['/login']);
-  }
+  } */
 
   // Filtrer les pokémons par catégorie
   filterByCategory(category: string): void {
