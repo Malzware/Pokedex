@@ -21,28 +21,17 @@
       <p>{{ pokemon.default_variety.name }}</p>
     </div>
 
-    <!-- Évolutions précédentes -->
-    <ng-container *ngIf="previousEvolutions.length > 0">
-      <div *ngFor="let evolution of previousEvolutions" class="flex items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5-5 5M6 12h12" />
-        </svg>
-        <img [src]="evolution.sprites?.front_url" alt="{{ evolution.name }}"
-             class="h-24 w-24 p-1 rounded-lg">
-        <p>{{ evolution.name }}</p>
-      </div>
-    </ng-container>
-
-    <!-- Évolutions suivantes -->
-    <ng-container *ngIf="nextEvolutions.length > 0">
-      <div *ngFor="let evolution of nextEvolutions" class="flex items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5-5 5M6 12h12" />
-        </svg>
-        <img [src]="evolution.sprites?.front_url" alt="{{ evolution.name }}"
-             class="h-24 w-24 p-1 rounded-lg">
-        <p>{{ evolution.name }}</p>
-      </div>
-    </ng-container>
+    <ng-container *ngFor="let evolution of evolutions">
+      <ng-container *ngFor="let evol of evolution.evolutions">
+        <div class="flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-2" fill="none" viewBox="0 0 24 24"
+               stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5-5 5M6 12h12" />
+          </svg>
+          <img [src]="evol.evolves_to.sprites?.front_url" alt="{{ evol.evolves_to.name }}"
+               class="h-24 w-24 p-1 rounded-lg">
+          <p>{{ evol.evolves_to.name }}</p>
+        </div>
+      </ng-container>
   </div>
 </div>

@@ -68,30 +68,6 @@ class PokemonController extends Controller
 
                 return $nextPokemon;
             });
-
-        // Récupérer les évolutions précédentes (Pokémons qui évoluent en ce Pokémon)
-        $previousEvolutions = PokemonEvolution::with(['pokemonVariety.sprites'])
-            ->where('evolves_to_id', $pokemon->id) // Pokémons évoluant en ce Pokémon
-            ->get()
-            ->map(function ($evolution) {
-                // Récupérer le Pokémon précédent
-                $previousPokemon = $evolution->pokemonVariety;
-                // Trouver l'évolution précédente de ce Pokémon (previous evolution)
-                $previousEvolution = PokemonEvolution::with(['pokemonVariety.sprites'])
-                    ->where('evolves_to_id', $previousPokemon->id)
-                    ->first();
-
-                // Ajout de l'évolution précédente du Pokémon précédent
-                $previousPokemon->previousEvolution = $previousEvolution ? $previousEvolution->pokemonVariety : null;
-
-                return $previousPokemon;
-            });
-
-        // Retourner à la fois les évolutions précédentes et suivantes
-        return response()->json([
-            'previous_evolutions' => $previousEvolutions,
-            'next_evolutions' => $nextEvolutions,
-        ]);
     }
 
     public function showMoves(Pokemon $pokemon)
@@ -121,20 +97,20 @@ class PokemonController extends Controller
         // Charger les variétés et les capacités associées
         $varieties = $pokemon->varieties()->with('abilities')->get();
         $abilities = [];
-    
+
         // Ajouter toutes les capacités des variétés
         foreach ($varieties as $variety) {
             foreach ($variety->abilities as $ability) {
                 $abilities[] = $ability;
             }
         }
-    
+
         // Supprimer les doublons en fonction de l'id de la capacité
         $uniqueAbilities = collect($abilities)->unique('id')->values();
-    
+
         // Retourner les capacités uniques
         return $uniqueAbilities;
-    }    
+    }
 
     public function showWeaknessesAndResistances(Pokemon $pokemon)
     {
