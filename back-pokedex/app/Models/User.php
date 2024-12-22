@@ -29,4 +29,9 @@ class User extends Authenticatable
   protected $casts = [
     'email_verified_at' => 'datetime',
   ];
+
+  public function pokemon()
+  {
+    return $this->belongsToMany(Pokemon::class, 'pokemon_user');
+  }
 }

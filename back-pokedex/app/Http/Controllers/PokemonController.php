@@ -181,6 +181,47 @@ class PokemonController extends Controller
         ];
     }
 
+    public function store(Request $request, Pokemon $pokemon)
+    {
+        // Vérifiez si l'utilisateur est authentifié
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json(['message' => 'User not authenticated'], 401);
+        }
+
+        $validated = $request->validate([
+            'pokemon_id' => 'required|exists:Pokemon,id', // Utilisez "Pokemon" ici
+        ]);
+
+        $pokemonId = $validated['pokemon_id'];
+
+        // Vérifiez si l'association existe déjà
+        if ($user->pokemon()->where('pokemon_id', $pokemonId)->exists()) {
+            return response()->json(['message' => 'Pokemon already saved'], 409);
+        }
+
+        // Ajoutez l'association à la table pivot
+        $user->pokemon()->attach($pokemonId);
+
+        return response()->json(['message' => 'Pokemon saved successfully']);
+    }
+
+    public function showFavorites(Request $request)
+    {
+        // Vérifiez si l'utilisateur est authentifié
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json(['message' => 'User not authenticated'], 401);
+        }
+
+        // Récupérer les pokémons favoris de l'utilisateur
+        $favorites = $user->pokemon; // Récupère tous les pokémons associés à cet utilisateur
+
+        return response()->json($favorites);
+    }
+
     public function search(Request $request)
     {
         // Rechercher un Pokémon en fonction du terme de recherche et charger les informations associées

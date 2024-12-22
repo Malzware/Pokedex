@@ -14,6 +14,8 @@ class Pokemon extends Model implements TranslatableContract
 {
   use HasFactory, Translatable, Searchable; // <--- and here
 
+  protected $table = 'pokemon'; // nom exact de la table dans la base de données
+
   // Liste des attributs traduits
   public $translatedAttributes = ['name', 'category'];
 

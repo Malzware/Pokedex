@@ -1,6 +1,7 @@
 <div class="stats-container">
-  <h2>Informations</h2>
-  <hr class="title-divider">
+  <!-- Titre "Informations" caché en version mobile -->
+  <h2 class="hidden sm:block">Informations</h2> <!-- Caché sur mobile, visible sur tablettes et plus -->
+  <hr class="title-divider hidden sm:block"> <!-- Caché sur mobile, visible sur tablettes et plus -->
   <h1>Description:</h1>
   <p>{{ pokemon.default_variety.description }}</p>
   <br>

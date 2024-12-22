@@ -1,18 +1,36 @@
-<h1 class="grid grid-cols-[auto_1fr_auto] items-center mb-6">
-  <!-- Bouton flèche sans texte, avec un trait vertical à gauche -->
-  <a [routerLink]="['/']">
-    ←
-  </a>
+<div class="flex items-center justify-between">
+  <!-- Conteneur gauche : flèche et ID -->
+  <div class="flex items-center flex-none" style="margin-left: 20px; padding-right: 20px;">
+    <a [routerLink]="['/']" class="flex items-center" style="margin-right: 8px;">
+      ←
+    </a>
+    <span class="border-l-2 border-gray-400 h-6 mx-5"></span>
+    <h1>#{{ pokemon.id }}</h1>
+  </div>
 
-  <!-- Trait vertical entre la flèche et l'ID -->
-  <span class="border-l-2 border-gray-400 h-6 mx-2"></span>
+<!-- Bouton de sauvegarde du Pokémon -->
+<div class="absolute bottom-4 left-4">
+  <button class="btn btn-primary" (click)="savePokemon()">
+    Sauvegarder
+  </button>
+</div>
 
-  <!-- Affichage de l'ID -->
-  <span class="text-sm">#{{ pokemon.id }}</span>
+  
 
-  <!-- Nom du Pokémon centré -->
-  <span class="text-center">{{ pokemon.name }}</span>
-</h1>
+  <!-- Nom du Pokémon centré avec chevrons cliquables -->
+  <div class="flex-1 flex justify-center items-center relative">
+    <!-- Espace invisible à gauche pour compenser le margin-left -->
+    <div class="absolute left-0" style="width: 20px;"></div>
+    <div class="flex items-center">
+      <span (click)="goToPreviousPokemon()" class="cursor-pointer">&lt;</span>
+      <h1 (click)="goToNextPokemon()" class="mx-2">{{ pokemon.name }}</h1>
+      <span (click)="goToNextPokemon()" class="cursor-pointer">&gt;</span>
+    </div>
+  </div>
+
+  <!-- Espace vide à droite pour équilibrer la mise en page -->
+  <div class="flex-none min-w-[100px]"></div>
+</div>
 
 <!-- Section principale avec l'image du Pokémon et les types -->
 <div class="grid place-items-center p-4 relative" [ngStyle]="{'background': getBackgroundStyle()}">
@@ -41,7 +59,7 @@
       </button>
     </div>
   </div>
-  
+
   <!-- Types du Pokémon -->
   <div class="absolute bottom-0 left-0 p-4 flex flex-row gap-2" style="border-radius: 0;">
     <img *ngFor="let type of pokemon.default_variety.types" [src]="type.sprite_url" [alt]="type.name" class="h-6">
@@ -52,28 +70,60 @@
 <audio #pokemonCry [src]="pokemon.default_variety?.cry_url"></audio>
 
 <!-- Onglets pour les détails du Pokémon (grandes tailles d'écran) -->
-<div role="tablist" class="tabs tabs-bordered mt-6 mx-6"> <!-- Ajout de mx-6 -->
-  <div class="hidden lg:grid lg:grid-cols-3 lg:gap-6">
-    <div>
+<div role="tablist" class="tabs tabs-bordered mt-6 mx-6">
+  <div class="hidden lg:flex lg:space-x-6">
+    <!-- Section Informations -->
+    <div class="flex-1">
       <app-pokemon-info [pokemon]="pokemon" [evolutions]="evolutions"></app-pokemon-info>
     </div>
-    <div>
+
+    <!-- Séparateur vertical -->
+    <div class="border-l-2 border-gray-400 h-full"></div>
+
+    <!-- Section Statistiques -->
+    <div class="flex-1">
       <app-pokemon-stats [pokemon]="pokemon"></app-pokemon-stats>
     </div>
-    <div>
+
+    <!-- Séparateur vertical -->
+    <div class="border-l-2 border-gray-400 h-full"></div>
+
+    <!-- Section Capacités -->
+    <div class="flex-1">
       <app-pokemon-abilities-moves [abilities]="abilities" [moves]="moves"></app-pokemon-abilities-moves>
     </div>
   </div>
 
   <!-- Onglets pour les détails (mobiles) -->
   <div class="lg:hidden">
-    <input type="radio" name="my_tabs" class="tab" (click)="selectTab(1)" [checked]="selectedTab === 1"
-      aria-label="Tab 1" />
-    <input type="radio" name="my_tabs" class="tab" (click)="selectTab(2)" [checked]="selectedTab === 2"
-      aria-label="Tab 2" />
-    <input type="radio" name="my_tabs" class="tab" (click)="selectTab(3)" [checked]="selectedTab === 3"
-      aria-label="Tab 3" />
+    <!-- Conteneur pour centrer les boutons horizontalement et espacer correctement les onglets -->
+    <div class="flex justify-between items-center w-full">
+      <!-- Onglet 1 - Informations (à gauche) -->
+      <input type="radio" name="my_tabs" id="tab1" class="hidden" (click)="selectTab(1)" [checked]="selectedTab === 1"
+        aria-label="Informations" />
+      <label for="tab1" class="cursor-pointer text-center flex-1">
+        <h2 class="text-lg font-semibold">Informations</h2>
+        <hr class="title-divider w-full mx-auto mt-2">
+      </label>
 
+      <!-- Onglet 2 - Statistiques (centré) -->
+      <input type="radio" name="my_tabs" id="tab2" class="hidden" (click)="selectTab(2)" [checked]="selectedTab === 2"
+        aria-label="Statistiques" />
+      <label for="tab2" class="cursor-pointer text-center flex-1">
+        <h2 class="text-lg font-semibold">Statistiques</h2>
+        <hr class="title-divider w-full mx-auto mt-2">
+      </label>
+
+      <!-- Onglet 3 - Capacités (à droite) -->
+      <input type="radio" name="my_tabs" id="tab3" class="hidden" (click)="selectTab(3)" [checked]="selectedTab === 3"
+        aria-label="Capacités" />
+      <label for="tab3" class="cursor-pointer text-center flex-1">
+        <h2 class="text-lg font-semibold">Capacités</h2>
+        <hr class="title-divider w-full mx-auto mt-2">
+      </label>
+    </div>
+
+    <!-- Contenu des onglets -->
     <div *ngIf="selectedTab === 1">
       <app-pokemon-info [pokemon]="pokemon" [evolutions]="evolutions"></app-pokemon-info>
     </div>

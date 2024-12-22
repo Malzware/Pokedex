@@ -5,6 +5,7 @@ import { Move } from "../../shared/interfaces/move";
 import { PokemonVariety } from "../../shared/interfaces/pokemon-variety";
 import { ApiService } from "../../shared/services/api.service";
 import { ActivatedRoute } from "@angular/router";
+import { Router } from '@angular/router'; // Importer le service Router d'Angular
 
 @Component({
   selector: 'app-pokemon-detail',
@@ -43,9 +44,11 @@ export class PokemonDetailComponent {
     stellar: '#E2E2E2' // Couleur spécifique pour 'stellar'
   };
 
+  // Injecter le service ApiService et Router
   constructor(
     private apiService: ApiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router  // Ajoutez Router ici
   ) {
     // Récupération de l'identifiant du Pokémon dans l'URL
     this.route.params.subscribe(params => {
@@ -115,5 +118,77 @@ export class PokemonDetailComponent {
   // Méthode pour basculer entre la version normale et shiny
   toggleShiny(): void {
     this.showShiny = !this.showShiny; // Inverse l'état actuel de showShiny
+  }
+
+  /// Charger le Pokémon précédent
+  goToPreviousPokemon(): void {
+    if (this.pokemon && this.pokemon.id > 1) {
+      const previousPokemonId = this.pokemon.id - 1; // Décrémente l'ID de 1 pour le précédent
+      this.navigateToPokemonPage(previousPokemonId); // Naviguer vers la page du précédent
+    }
+  }
+
+  goToNextPokemon(): void {
+    if (this.pokemon && this.pokemon.id) {
+      const nextPokemonId = this.pokemon.id + 1; // Incrémente l'ID de 1 pour le suivant
+      this.apiService.requestApi(`/pokemon/${nextPokemonId}`)
+        .then(() => {
+          // Si la requête réussit, c'est qu'un Pokémon existe à cet ID
+          this.navigateToPokemonPage(nextPokemonId); // Naviguer vers la page du suivant
+        })
+        .catch((error) => {
+          // Si la requête échoue (par exemple, Pokémon n'existe pas), ne faire rien ou gérer l'erreur
+          console.log(`Aucun Pokémon trouvé avec l'ID ${nextPokemonId}`);
+        });
+    }
+  }
+
+  // Naviguer vers la page d'un Pokémon donné
+  private navigateToPokemonPage(pokemonId: number): void {
+    // Mise à jour de l'URL via le service Router
+    this.router.navigate([`/pokemon/${pokemonId}`]);
+
+    // Charger les données du Pokémon après navigation
+    this.loadPokemonData(pokemonId);
+  }
+
+  // Charger les données d'un Pokémon donné
+  private loadPokemonData(pokemonId: number): void {
+    this.apiService.requestApi(`/pokemon/${pokemonId}`)
+      .then((response: Pokemon) => {
+        this.pokemon = response;
+        this.loadAdditionalData(pokemonId.toString()); // Charger les données supplémentaires du Pokémon
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la récupération des détails du Pokémon', error);
+      });
+  }
+
+  // Fonction pour sauvegarder le Pokémon
+  savePokemon(): void {
+    console.log('Tentative de sauvegarde du Pokémon...', this.pokemon); // Log de début
+
+    // Vérifier si l'utilisateur est connecté
+    if (!this.apiService.token) {
+      console.log('Utilisateur non connecté. Affichage de l\'alerte...');
+      alert('Vous devez être connecté pour sauvegarder un Pokémon.');
+      return;
+    }
+
+    console.log('Utilisateur connecté. Préparation de la requête POST...');
+
+    // Effectuer la requête POST pour sauvegarder le Pokémon
+    const pokemonId = this.pokemon.id;  // ID du Pokémon à sauvegarder
+    console.log('ID du Pokémon à sauvegarder:', pokemonId);
+
+    this.apiService.requestApi(`/pokemon/${pokemonId}/varieties/pokemon-user`, 'POST', {
+      pokemon_id: pokemonId
+    }).then(response => {
+      console.log('Réponse de la sauvegarde:', response); // Log de réponse
+      alert('Pokémon sauvegardé avec succès !');
+    }).catch(error => {
+      console.error('Erreur lors de la sauvegarde du Pokémon', error); // Log d'erreur
+      alert('Erreur lors de la sauvegarde du Pokémon.');
+    });
   }
 }
