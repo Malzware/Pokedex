@@ -1,13 +1,10 @@
-<!-- <h1>{{ 'pokemon_list' | transloco }}</h1> -->
-
+<!-- Bouton Profil -->
 <div class="mb-4 flex justify-end">
   <button [routerLink]="['/profil']">
-
     <!-- Image à l'intérieur du bouton -->
     <img src="assets/image/profilButton.png" alt="Logo de la page Profil" class="inline-block mr-20 mt-10" />
   </button>
 </div>
-
 
 <!-- Barre de recherche -->
 <div class="search-bar">
@@ -22,12 +19,21 @@
   </button>
 </div>
 
-<!-- Liste des Pokémons -->
-<section class="p-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+<!-- Grille de cartes Pokémon -->
+<section class="section-cards p-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
   <ng-container *ngIf="pokemonList">
-    <div *ngFor="let pokemon of pokemonList?.data">
+    <div *ngFor="let pokemon of pokemonList?.data" class="pokemon-card"
+      [ngStyle]="{'background': getBackgroundStyle(pokemon)}">
       <a [routerLink]="['/pokemon/'+pokemon.id]">
-        <app-pokemon-card [pokemon]="pokemon"></app-pokemon-card>
+        <div class="pokemon-card-content">
+          <img [src]="pokemon.default_variety.sprites?.artwork_url" [alt]="pokemon.name" class="pokemon-image">
+          <div class="pokemon-name-box">
+            <h3 class="pokemon-name">{{ pokemon.name }}</h3>
+            <div class="pokemon-id-box">
+              <p class="pokemon-id">#{{ pokemon.id }}</p>
+            </div>
+          </div>
+        </div>
       </a>
     </div>
   </ng-container>

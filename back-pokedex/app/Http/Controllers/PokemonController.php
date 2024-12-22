@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pokemon;
+use App\Models\PokemonVariety;
 use App\Models\PokemonEvolution;
 use App\Models\TypeInteraction;
 use Illuminate\Http\Request;
@@ -68,6 +69,30 @@ class PokemonController extends Controller
 
                 return $nextPokemon;
             });
+
+        // Récupérer les évolutions précédentes (Pokémons qui évoluent en ce Pokémon)
+        $previousEvolutions = PokemonEvolution::with(['pokemonVariety.sprites'])
+            ->where('evolves_to_id', $pokemon->id) // Pokémons évoluant en ce Pokémon
+            ->get()
+            ->map(function ($evolution) {
+                // Récupérer le Pokémon précédent
+                $previousPokemon = $evolution->pokemonVariety;
+                // Trouver l'évolution précédente de ce Pokémon (previous evolution)
+                $previousEvolution = PokemonEvolution::with(['pokemonVariety.sprites'])
+                    ->where('evolves_to_id', $previousPokemon->id)
+                    ->first();
+
+                // Ajout de l'évolution précédente du Pokémon précédent
+                $previousPokemon->previousEvolution = $previousEvolution ? $previousEvolution->pokemonVariety : null;
+
+                return $previousPokemon;
+            });
+
+        // Retourner à la fois les évolutions précédentes et suivantes
+        return response()->json([
+            'previous_evolutions' => $previousEvolutions,
+            'next_evolutions' => $nextEvolutions,
+        ]);
     }
 
     public function showMoves(Pokemon $pokemon)

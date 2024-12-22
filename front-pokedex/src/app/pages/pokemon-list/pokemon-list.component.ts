@@ -1,5 +1,5 @@
-import { Component, HostListener } from '@angular/core'; // HostListener pour détecter les événements de scroll
-import { Router } from '@angular/router'; // Importation du Router
+import { Component, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
 import { ApiService } from "../../shared/services/api.service";
 import { Paginate } from "../../shared/interfaces/paginate";
 import { Pokemon } from "../../shared/interfaces/pokemon";
@@ -15,9 +15,32 @@ export class PokemonListComponent {
   searchQuery: string = '';  // Variable pour la recherche
   isLoading: boolean = false; // Indique si une requête est en cours
 
+  // Correspondance des couleurs pour chaque type (comme dans PokemonDetailComponent)
+  private readonly TYPE_COLORS: { [key: string]: string } = {
+    normal: '#A8A77A',
+    fighting: '#C22E28',
+    flying: '#A98FF3',
+    poison: '#A33EA1',
+    ground: '#E2BF65',
+    rock: '#B6A136',
+    bug: '#A6B91A',
+    ghost: '#735797',
+    steel: '#B7B7CE',
+    fire: '#EE8130',
+    water: '#6390F0',
+    grass: '#7AC74C',
+    electric: '#F7D02C',
+    psychic: '#F95587',
+    ice: '#96D9D6',
+    dragon: '#6F35FC',
+    dark: '#705746',
+    fairy: '#D685AD',
+    stellar: '#E2E2E2' // Couleur spécifique pour 'stellar'
+  };
+
   constructor(
     public apiService: ApiService,
-    private router: Router // Injection du Router
+    private router: Router
   ) {
     console.log('Chargement initial des Pokémons');
     this.loadNextPokemonPage(); // Charger les Pokémons au départ
@@ -106,5 +129,25 @@ export class PokemonListComponent {
   // Méthode de navigation vers la page des filtres
   navigateToFilterPage() {
     this.router.navigate(['/filters']);
+  }
+
+  // Fonction pour générer un style de fond en fonction des types
+  getBackgroundStyle(pokemon: Pokemon): string {
+    if (!pokemon || !pokemon.default_variety.types) {
+      return '';
+    }
+
+    const types = pokemon.default_variety.types.map(type => type.name.toLowerCase());
+
+    if (types.length === 1) {
+      // Un seul type, couleur unie
+      return this.TYPE_COLORS[types[0]] || 'transparent';
+    } else if (types.length === 2) {
+      // Deux types, appliquer un dégradé
+      const color1 = this.TYPE_COLORS[types[0]] || 'transparent';
+      const color2 = this.TYPE_COLORS[types[1]] || 'transparent';
+      return `linear-gradient(to top right, ${color1}, ${color2})`;
+    }
+    return '';
   }
 }

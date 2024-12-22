@@ -19,11 +19,6 @@ const routes: Routes = [
     canActivate: [AuthGuard] // Route protégée par AuthGuard
   },
   {
-    path: 'filters',
-    component: FilterPageComponent, // Route pour la page des filtres
-    canActivate: [AuthGuard] // Protéger cette route si nécessaire
-  },
-  {
     path: 'pokemon/:pokemon_id',
     component: PokemonDetailComponent,
     canActivate: [AuthGuard] // Route protégée
