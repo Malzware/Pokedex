@@ -17,7 +17,7 @@
     <!-- Pokémon actuel -->
     <div class="flex items-center">
       <img [src]="pokemon.default_variety.sprites?.front_url" alt="{{ pokemon.default_variety.name }}"
-           class="h-24 w-24 p-1 rounded-lg">
+        class="h-24 w-24 p-1 rounded-lg">
       <p>{{ pokemon.default_variety.name }}</p>
     </div>
 
@@ -25,13 +25,14 @@
       <ng-container *ngFor="let evol of evolution.evolutions">
         <div class="flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-2" fill="none" viewBox="0 0 24 24"
-               stroke="currentColor">
+            stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5-5 5M6 12h12" />
           </svg>
           <img [src]="evol.evolves_to.sprites?.front_url" alt="{{ evol.evolves_to.name }}"
-               class="h-24 w-24 p-1 rounded-lg">
+            class="h-24 w-24 p-1 rounded-lg">
           <p>{{ evol.evolves_to.name }}</p>
         </div>
       </ng-container>
+    </ng-container>
   </div>
 </div>

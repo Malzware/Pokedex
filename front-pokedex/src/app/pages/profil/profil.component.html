@@ -1,0 +1,13 @@
+<div class="flex flex-col items-center justify-center min-h-screen">
+    <img *ngIf="user" [src]="user.profil_picture_url" alt="Profile Picture" class="rounded-full w-32 h-32 mb-4"/>
+    <h1 class="text-4xl font-bold text-gray-800 mb-4">{{ user?.name }}</h1>
+    <p class="text-lg text-gray-600">{{ user?.email }}</p>
+    <p class="text-lg text-gray-600">{{ user?.locale }}</p>
+  
+    <button 
+      class="bg-gray-300 text-gray-700 py-3 px-8 rounded-full text-lg font-semibold hover:bg-gray-400 transition mt-8"
+      (click)="logout()">
+      Déconnexion
+    </button>
+  </div>
+  

@@ -5,16 +5,17 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
+import { ProfilComponent } from './pages/profil/profil.component';
 import { PokemonListComponent } from './pages/pokemon-list/pokemon-list.component';
 import { PokemonDetailComponent } from "./pages/pokemon-detail/pokemon-detail.component";
-import { FilterPageComponent } from "./pages/filter-page/filter-page.component"; // Ajoutez ce composant
+import { FilterPageComponent } from "./pages/filter-page/filter-page.component"; 
 import { AuthGuard } from './shared/guards/auth.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
     path: '',
-    component: PokemonListComponent,
+    component: PokemonListComponent, // La page d'accueil sera maintenant PokemonListComponent
     canActivate: [AuthGuard] // Route protégée par AuthGuard
   },
   {
@@ -27,7 +28,12 @@ const routes: Routes = [
     component: PokemonDetailComponent,
     canActivate: [AuthGuard] // Route protégée
   },
-  { path: '**', redirectTo: '' } // Redirige toute route inconnue vers l'accueil
+  {
+    path: 'profil', // Ajoutez cette route pour la page Profil
+    component: ProfilComponent,
+    canActivate: [AuthGuard] // La page Profil est protégée par AuthGuard
+  },
+  { path: '**', redirectTo: '' } // Redirige toute route inconnue vers l'accueil (PokemonListComponent)
 ];
 
 @NgModule({
