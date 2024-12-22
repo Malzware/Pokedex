@@ -103,8 +103,8 @@ export class PokemonListComponent {
     }
   }
 
-  goToFilterPage() {
-    console.log('Redirection vers la page de filtres');
-    this.router.navigate(['/filters']); // Redirige vers la page des filtres
-  }  
+  // Méthode de navigation vers la page des filtres
+  navigateToFilterPage() {
+    this.router.navigate(['/filters']);
+  }
 }

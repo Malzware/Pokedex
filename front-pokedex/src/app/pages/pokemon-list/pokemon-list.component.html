@@ -1,38 +1,25 @@
 <!-- <h1>{{ 'pokemon_list' | transloco }}</h1> -->
 
 <div class="mb-4 flex justify-end">
-  <button 
-    [routerLink]="['/profil']">
-    
+  <button [routerLink]="['/profil']">
+
     <!-- Image à l'intérieur du bouton -->
-    <img 
-      src="assets/image/profilButton.png" 
-      alt="Logo de la page Profil" 
-      class="inline-block mr-20 mt-10" />
+    <img src="assets/image/profilButton.png" alt="Logo de la page Profil" class="inline-block mr-20 mt-10" />
   </button>
 </div>
 
 
 <!-- Barre de recherche -->
 <div class="search-bar">
-  <input
-    type="text"
-    [(ngModel)]="searchQuery"
-    (input)="onSearch()"
-    placeholder="nom ou numéro du pokémon"
-    class="search-input"
-  />
+  <input type="text" [(ngModel)]="searchQuery" (input)="onSearch()" placeholder="nom ou numéro du pokémon"
+    class="search-input" />
 </div>
 
-<!-- Barre de filtre -->
+<!-- Barre de filtre transformée en bouton -->
 <div class="filter-bar">
-  <input
-    type="text"
-    [(ngModel)]="searchQuery"
-    (input)="onSearch()"
-    placeholder="Filtrer"
-    class="search-input"
-  />
+  <button (click)="navigateToFilterPage()" class="search-button">
+    Filtrer votre recherche
+  </button>
 </div>
 
 <!-- Liste des Pokémons -->

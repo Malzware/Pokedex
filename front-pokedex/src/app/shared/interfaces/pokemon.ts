@@ -1,6 +1,5 @@
 import {PokemonVariety} from "./pokemon-variety";
 
-
 export interface Pokemon {
   category: string;
   created_at: string;

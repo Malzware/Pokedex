@@ -27,6 +27,20 @@ body {
   background-color: #E87A7A;
   margin: 0;
   padding: 0;
+  min-height: 100vh; /* Permet de garder le body au moins aussi grand que la fenêtre du navigateur */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.white-block {
+  width: 100%;
+  background-color: white;
+  border-radius: 58px;
+  overflow: auto;
+  margin: 0;
+  min-height: 100vh; /* Permet de garder le body au moins aussi grand que la fenêtre du navigateur */
+  flex-grow: 1; /* S'assure que l'élément prend tout l'espace restant dans le body */
 }
 
 h1 {
@@ -40,15 +54,6 @@ h2 {
 p {
   font-size: 17.5px;
 }
-
-.white-block {
-  width: 100%;
-  background-color: white;
-  border-radius: 58px;
-  overflow: auto;
-  margin: 0;
-}
-
 
 .title-divider {
   width: 50%;

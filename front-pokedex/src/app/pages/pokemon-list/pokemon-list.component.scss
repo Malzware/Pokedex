@@ -1,40 +1,42 @@
-/* Styles généraux pour la page */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f7f6;
-    margin: 0;
-    padding: 0;
-}
-
-/* Titre principal */
-h1 {
-    text-align: center;
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #333;
-    margin: 20px 0;
-}
-
 /* Barre de recherche */
 .search-bar {
     display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+    justify-content: center; /* Centre l'élément horizontalement */
+    margin-bottom: 20px; /* Marge inférieure pour espacer le reste du contenu */
 }
 
+/* Champ de recherche */
 .search-input {
-    width: 100%;
-    max-width: 400px;
-    padding: 10px;
-    font-size: 1rem;
-    border-radius: 25px;
-    border: 1px solid #ddd;
-    outline: none;
-    transition: border-color 0.3s ease;
+    width: 100%; /* Utilise toute la largeur disponible */
+    max-width: 500px; /* Limite la largeur maximale de l'input */
+    height: 58px;
+    padding: 10px 15px; /* Espacement interne */
+    font-size: 16px; /* Taille de la police */
+    border-radius: 25px; /* Bords arrondis */
+    outline: none; /* Supprime la bordure bleue de focus par défaut */
+    box-sizing: border-box; /* Assure que les bordures et padding sont pris en compte dans la largeur */
+    background-color: #D9D9D9; /* Fond gris clair */
+    color: #333; /* Couleur du texte */
 }
 
-.search-input:focus {
-    border-color: #76b852; /* couleur du focus (vert Pokémon) */
+/* Barre de filtre transformée en bouton */
+.filter-bar {
+    display: flex;
+    justify-content: center; /* Centre le bouton horizontalement */
+    margin-top: 20px; /* Marge pour espacer de la barre de recherche */
+}
+
+/* Style du bouton de filtre */
+.search-button {
+    width: 100%;
+    max-width: 500px; /* Limite la largeur maximale de l'input */
+    height: 29px;
+    font-size: 16px; /* Taille de la police */
+    background-color: #D9D9D9; /* Fond gris clair */
+    color: #626262; /* Couleur du texte */
+    border-radius: 25px; /* Bordure arrondie */
+    cursor: pointer; /* Curseur en forme de main pour indiquer que c'est cliquable */
+    transition: all 0.3s ease; /* Animation douce sur le hover */
 }
 
 /* Grille de cartes Pokémon */
@@ -76,14 +78,4 @@ app-pokemon-card:hover {
 
 a {
     text-decoration: none;
-}
-
-/* Indicateur de chargement */
-.loading-indicator {
-    text-align: center;
-    font-size: 1.2rem;
-    color: #76b852; /* couleur verte */
-    font-weight: bold;
-    margin-top: 20px;
-    padding: 10px;
 }
